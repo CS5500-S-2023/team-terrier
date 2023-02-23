@@ -1,5 +1,9 @@
 # Team Terrier's Casino Bot
 
+# Team members
+
+YANTING LAI
+
 Warm welcome to anyone reading this document, we are teeeeaaaaammmmm Terrier!
 
 [Our Repo](https://github.com/CS5500-S-2023/team-terrier). Might change in the future, hopefully never.
@@ -23,6 +27,7 @@ A: All code will be written and executed on Github codespaces. Navigate to our [
 
 Q: How do I run our bot?
 A: Follow these steps carefully.
+
 1. Create an application in [Discord developer portal](https://discord.com/developers/applications) by clicking on **New Application** on the top right corner with whatever name you want.
 2. Create a bot in this application by clicking on the **Bot** tab on the left panel, and then clicking on **Add Bot**.
 3. Copy this bot's token and come back to Github codespace's terminal.

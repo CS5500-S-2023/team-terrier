@@ -17,6 +17,10 @@ import net.dv8tion.jda.api.events.interaction.component.StringSelectInteractionE
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 
+/**
+ * This is essentially a callback scheduler that reacts to different events. For now only 3 type of
+ * events are handled: 1. Slash commands 2. Button clicks 3. String selects
+ */
 @Slf4j
 public class MessageListener extends ListenerAdapter {
 

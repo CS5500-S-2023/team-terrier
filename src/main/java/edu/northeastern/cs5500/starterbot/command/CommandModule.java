@@ -4,12 +4,18 @@ import dagger.Module;
 import dagger.Provides;
 import dagger.multibindings.IntoSet;
 
+/**
+ * This is essentially a config class for declaring which handlers are
+ * injected at runtime.
+ * 
+ * TODO: Maybe inject into a Map in the future?
+ */
 @Module
 public class CommandModule {
 
     @Provides
     @IntoSet
-    public SlashCommandHandler provideSayCommand(ButtonCommand sayCommand) {
+    public SlashCommandHandler provideSayCommand(SayCommand sayCommand) {
         return sayCommand;
     }
 

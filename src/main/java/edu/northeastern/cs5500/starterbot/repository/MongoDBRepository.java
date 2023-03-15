@@ -11,13 +11,19 @@ import java.util.Collection;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import org.bson.types.ObjectId;
 
+/**
+ * Repository wrapper for MongoDB service.
+ */
+@Singleton
 public class MongoDBRepository<T extends Model> implements GenericRepository<T> {
 
-    static final String MONGODB_ID_FIELD = "_id";
+    private static final String MONGODB_ID_FIELD = "_id";
 
-    MongoCollection<T> collection;
+    private MongoCollection<T> collection;
 
     @Inject
     public MongoDBRepository(Class<T> clazz, MongoDBService mongoDBService) {

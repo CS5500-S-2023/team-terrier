@@ -8,6 +8,12 @@ public interface SlashCommandHandler {
     @Nonnull
     public String getName();
 
+    /**
+     * Documentation for CommandData related classes:
+     * https://ci.dv8tion.net/job/JDA5/javadoc/net/dv8tion/jda/api/interactions/commands/build/package-summary.html
+     *
+     * @return
+     */
     @Nonnull
     public CommandData getCommandData();
 

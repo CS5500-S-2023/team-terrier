@@ -12,12 +12,9 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Singleton;
-
 import org.bson.types.ObjectId;
 
-/**
- * Repository wrapper for MongoDB service.
- */
+/** Repository wrapper for MongoDB service. */
 @Singleton
 public class MongoDBRepository<T extends Model> implements GenericRepository<T> {
 

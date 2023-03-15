@@ -9,9 +9,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 import org.bson.types.ObjectId;
 
-/**
- * Repository wrapper for HashMap.
- */
+/** Repository wrapper for HashMap. */
 @Singleton
 public class InMemoryRepository<T extends Model> implements GenericRepository<T> {
 

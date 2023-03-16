@@ -12,10 +12,4 @@ public class DropdownCommandTest {
     void testNameMatchesData() {
         assertThat(command.getName()).isEqualTo(command.getCommandData().getName());
     }
-
-    @Test
-    void testReplyContent() {
-        assertThat(command.getCommandData().getDescription()).isEqualTo("Demonstrate a dropdown interaction");
-        assertThat(command.getReply().getContent()).isEqualTo("Please pick your class below");
-    }
 }

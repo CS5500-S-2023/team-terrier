@@ -26,6 +26,23 @@ We know the knowledge needed to start coding in a new framework is enormous, so 
 
 ### FAQs
 
+Q: What is the definition of "Done" in our project?
+
+A: The definition of done (DoD) is when all conditions, or acceptance criteria, that a software product must satisfy are met and ready to be accepted by a user, customer, team, or consuming system.
+
+To be specific, in our project a definition of "done" consists of a checklist containing items as below:
+
+- **Code is written with basic standards.** The most basic thing that needs to be completed for any user story or issue to be “done” is that it’s built.
+
+- **Code is documented.**
+
+- **Build has been made and deployed with unit tests.** We need to make sure we’ve gone through test plans and make sure we didn’t break anything else in the meantime.
+
+- **Code is peer-reviewed.** To be “done”, the code needs to be checked by our team for any issues or bugs.
+
+- **Help documentation is updated.**
+
+
 Q: Where do I develop code?
 
 A: All code will be written and executed on Github codespaces. Navigate to our [repo home](https://github.com/CS5500-S-2023/team-terrier), click the green **Code** button, select the codespaces tab, then create a codespace. Github will essentially open a VSCode in your browser in 2 minutes time.

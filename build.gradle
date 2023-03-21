@@ -58,6 +58,9 @@ dependencies {
     implementation Google.dagger
     annotationProcessor Google.dagger.compiler
 
+    testImplementation Google.dagger
+    testAnnotationProcessor Google.dagger.compiler
+
     // MongoDB for data storage
     implementation 'org.mongodb:mongo-java-driver:_'
 

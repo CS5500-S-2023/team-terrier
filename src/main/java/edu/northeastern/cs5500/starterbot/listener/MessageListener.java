@@ -3,6 +3,7 @@ package edu.northeastern.cs5500.starterbot.listener;
 import edu.northeastern.cs5500.starterbot.command.ButtonHandler;
 import edu.northeastern.cs5500.starterbot.command.SlashCommandHandler;
 import edu.northeastern.cs5500.starterbot.command.StringSelectHandler;
+import edu.northeastern.cs5500.starterbot.command.terrier.TerrierCommands;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
@@ -23,6 +24,7 @@ import net.dv8tion.jda.api.interactions.commands.build.CommandData;
  */
 @Slf4j
 public class MessageListener extends ListenerAdapter {
+    @Inject TerrierCommands terrierCommands;
 
     @Inject Set<SlashCommandHandler> commands;
     @Inject Set<ButtonHandler> buttons;
@@ -51,6 +53,8 @@ public class MessageListener extends ListenerAdapter {
         if (commandData == null) {
             return new ArrayList<>();
         }
+        commandData.add(terrierCommands.getDescriptors());
+
         return commandData;
     }
 

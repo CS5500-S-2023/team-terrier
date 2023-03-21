@@ -17,6 +17,7 @@ import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.StringSelectInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
+import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 
 /**
  * This is essentially a callback scheduler that reacts to different events. For now only 3 type of
@@ -35,14 +36,19 @@ public class MessageListener extends ListenerAdapter {
         super();
     }
 
+    /** Slash interaction callback entry point. */
     @Override
     public void onSlashCommandInteraction(@Nonnull SlashCommandInteractionEvent event) {
+        // Example interactions from Alex. Subject to deletion in the future.
         for (SlashCommandHandler command : commands) {
             if (command.getName().equals(event.getName())) {
                 command.onSlashCommandInteraction(event);
                 return;
             }
         }
+        // Our terrier slash event handlers.
+        MessageCreateData reply = terrierCommands.onSlashInteraction(event);
+        event.reply(reply).queue();
     }
 
     public @Nonnull Collection<CommandData> allCommandData() {

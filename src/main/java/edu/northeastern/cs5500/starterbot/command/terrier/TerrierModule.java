@@ -21,4 +21,10 @@ public class TerrierModule {
     public TerrierCommand provideWelcomeCommand(WelcomeCommand command) {
         return command;
     }
+
+    @Provides
+    @IntoSet
+    public SlashHandler provideWelcomeSlash(WelcomeCommand command) {
+        return command;
+    }
 }

@@ -5,9 +5,9 @@ import javax.inject.Singleton;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandGroupData;
 
 @Singleton
-public class AccountGroup extends SubcommandGroupData {
+public class BankGroup extends SubcommandGroupData {
     @Inject
-    public AccountGroup() {
-        super("account", "Terrier does banking!");
+    public BankGroup() {
+        super("bank", "Terrier does banking!");
     }
 }

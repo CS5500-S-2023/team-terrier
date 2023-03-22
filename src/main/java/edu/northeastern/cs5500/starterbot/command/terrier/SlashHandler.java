@@ -25,5 +25,6 @@ public interface SlashHandler {
      * @return
      */
     @Nonnull
-    public MessageCreateData onSlashInteraction(long snowflakeId, List<OptionMapping> options);
+    public MessageCreateData onSlashInteraction(
+            long snowflakeId, @Nonnull List<OptionMapping> options);
 }

@@ -81,7 +81,7 @@ public class TerrierCommands {
             event.reply("Terrier doesn't recognize this subcommand!").queue();
             log.info("Unrecognized subcommand: " + key);
         }
-        log.info("/" + key);
+        log.info("/" + event.getFullCommandName());
         return slashMap.get(key).onSlashInteraction(event.getIdLong(), event.getOptions());
     }
 }

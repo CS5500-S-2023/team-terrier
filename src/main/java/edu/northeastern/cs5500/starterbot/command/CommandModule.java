@@ -20,12 +20,6 @@ public class CommandModule {
 
     @Provides
     @IntoSet
-    public SlashCommandHandler provideWelcomeCommand(WelcomeCommand command) {
-        return command;
-    }
-
-    @Provides
-    @IntoSet
     public SlashCommandHandler providePreferredNameCommand(
             PreferredNameCommand preferredNameCommand) {
         return preferredNameCommand;

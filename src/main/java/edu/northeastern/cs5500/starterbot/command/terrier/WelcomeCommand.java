@@ -30,7 +30,8 @@ public class WelcomeCommand implements TerrierCommand, SlashHandler {
 
     @Override
     @Nonnull
-    public MessageCreateData onSlashInteraction(long snowflakeId, @Nonnull List<OptionMapping> options) {
+    public MessageCreateData onSlashInteraction(
+            long snowflakeId, @Nonnull List<OptionMapping> options) {
         return new MessageCreateBuilder().setContent(IMAGE_URL).build();
     }
 }

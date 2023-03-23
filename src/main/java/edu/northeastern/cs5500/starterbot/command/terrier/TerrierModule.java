@@ -39,4 +39,16 @@ public class TerrierModule {
     public SlashHandler provideBorrowSlash(BorrowCommand command) {
         return command;
     }
+
+    @Provides
+    @IntoSet
+    public TerrierCommand providePayCommand(PayCommand command) {
+        return command;
+    }
+
+    @Provides
+    @IntoSet
+    public SlashHandler providePaySlash(PayCommand command) {
+        return command;
+    }
 }

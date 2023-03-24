@@ -13,6 +13,7 @@ import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandGroupData;
+import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 
 @Singleton
@@ -29,7 +30,8 @@ public class TerrierCommands {
      * @param slashHandlers
      */
     @Inject
-    public TerrierCommands(Set<TerrierCommand> commands, Set<SlashHandler> slashHandlers) {
+    public TerrierCommands(
+            @Nonnull Set<TerrierCommand> commands, @Nonnull Set<SlashHandler> slashHandlers) {
         // Map TerrierCommand traits.
         for (TerrierCommand command : commands) {
             String key = command.getDescriptor().getName();
@@ -78,8 +80,10 @@ public class TerrierCommands {
     public MessageCreateData onSlashInteraction(@Nonnull SlashCommandInteractionEvent event) {
         String key = event.getSubcommandName();
         if (!slashMap.containsKey(key)) {
-            event.reply("Terrier doesn't recognize this subcommand!").queue();
             log.info("Unrecognized subcommand: " + key);
+            return new MessageCreateBuilder()
+                    .setContent("Terrier doesn't recognize this subcommand!")
+                    .build();
         }
         log.info("/" + event.getFullCommandName());
         return slashMap.get(key).onSlashInteraction(event.getIdLong(), event.getOptions());

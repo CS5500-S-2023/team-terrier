@@ -14,12 +14,6 @@ public class CommandModule {
 
     @Provides
     @IntoSet
-    public SlashCommandHandler provideSayCommand(SayCommand sayCommand) {
-        return sayCommand;
-    }
-
-    @Provides
-    @IntoSet
     public SlashCommandHandler providePreferredNameCommand(
             PreferredNameCommand preferredNameCommand) {
         return preferredNameCommand;

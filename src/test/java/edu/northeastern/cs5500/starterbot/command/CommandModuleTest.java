@@ -2,12 +2,11 @@ package edu.northeastern.cs5500.starterbot.command;
 
 import com.google.common.truth.Truth;
 import dagger.Component;
-import edu.northeastern.cs5500.starterbot.repository.RepositoryModule;
 import java.util.Set;
 import javax.inject.Singleton;
 import org.junit.jupiter.api.Test;
 
-@Component(modules = {CommandModule.class, RepositoryModule.class})
+@Component(modules = {CommandModule.class})
 @Singleton
 interface CommandModuleComponent {
     public Set<SlashCommandHandler> commands();

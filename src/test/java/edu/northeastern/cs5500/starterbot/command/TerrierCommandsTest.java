@@ -4,12 +4,13 @@ import com.google.common.truth.Truth;
 import dagger.Component;
 import edu.northeastern.cs5500.starterbot.command.terrier.TerrierCommands;
 import edu.northeastern.cs5500.starterbot.command.terrier.TerrierModule;
+import edu.northeastern.cs5500.starterbot.database.DatabaseModule;
 import javax.inject.Singleton;
 import net.dv8tion.jda.api.interactions.commands.Command.Type;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import org.junit.jupiter.api.Test;
 
-@Component(modules = {TerrierModule.class})
+@Component(modules = {TerrierModule.class, DatabaseModule.class})
 @Singleton
 interface TerrierCommandsComponent {
     public TerrierCommands commands();

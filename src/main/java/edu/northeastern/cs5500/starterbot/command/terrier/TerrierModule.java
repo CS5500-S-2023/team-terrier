@@ -30,6 +30,18 @@ public class TerrierModule {
 
     @Provides
     @IntoSet
+    public TerrierCommand provideMeCommand(MeCommand command) {
+        return command;
+    }
+
+    @Provides
+    @IntoSet
+    public SlashHandler provideMeSlash(MeCommand command) {
+        return command;
+    }
+
+    @Provides
+    @IntoSet
     public TerrierCommand provideBorrowCommand(BorrowCommand command) {
         return command;
     }

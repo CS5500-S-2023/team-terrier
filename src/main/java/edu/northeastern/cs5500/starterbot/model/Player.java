@@ -7,12 +7,14 @@ import lombok.Getter;
 public class Player implements Tuple<Long> {
 
     private static final double DAILY_REWARD = 5000;
+    private static final double MAX_BORROW_AMOUNT = 10000;
 
     /** Primary key. */
     private final long snowflakeId;
 
     private LocalDate lastClaimedDate = null;
     @Getter private double cash = 0;
+    @Getter private double borrowed = 0;
 
     public Player(long snowflakeId) {
         this.snowflakeId = snowflakeId;
@@ -35,5 +37,29 @@ public class Player implements Tuple<Long> {
         cash += DAILY_REWARD;
         lastClaimedDate = LocalDate.now();
         return true;
+    }
+
+    /*
+     * Users get loans.
+     */
+    public boolean borrow(double amount) {
+        if (borrowed + amount <= MAX_BORROW_AMOUNT) {
+            cash += amount;
+            borrowed += amount;
+            return true;
+        }
+        return false;
+    }
+
+    /*
+     * Users pay loan.
+     */
+    public boolean pay(double amount) {
+        if (amount <= borrowed && amount <= cash) {
+            cash -= amount;
+            borrowed -= amount;
+            return true;
+        }
+        return false;
     }
 }

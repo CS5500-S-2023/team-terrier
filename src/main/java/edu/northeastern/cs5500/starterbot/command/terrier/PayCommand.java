@@ -22,15 +22,14 @@ public class PayCommand implements TerrierCommand, SlashHandler {
         /** Injected default constructor */
     }
 
-    @Inject
-    Database<Long, Player> players;
+    @Inject Database<Long, Player> players;
+
+    @Nonnull private static final String OPTION_KEY = "amount";
 
     @Nonnull
-    private static final String OPTION_KEY = "amount";
-
-    @Nonnull
-    private static final SubcommandData DESCRIPTOR = new SubcommandData("pay", "Terrier Pays!")
-            .addOption(OptionType.NUMBER, OPTION_KEY, "Amount of money to pay", true);
+    private static final SubcommandData DESCRIPTOR =
+            new SubcommandData("pay", "Terrier Pays!")
+                    .addOption(OptionType.NUMBER, OPTION_KEY, "Amount of money to pay", true);
 
     @Override
     @Nonnull
@@ -38,8 +37,7 @@ public class PayCommand implements TerrierCommand, SlashHandler {
         return DESCRIPTOR;
     }
 
-    @Inject
-    BankGroup group;
+    @Inject BankGroup group;
 
     @Override
     @Nullable
@@ -64,9 +62,18 @@ public class PayCommand implements TerrierCommand, SlashHandler {
             builder.setContent("Terrier doesn't know who you are. Try command /terrier welcome");
         } else if (player.pay(amount)) {
             players.update(player);
-            builder.setContent("Successfully paid " + amount + "!" + " Remaining loan: " + player.getBorrowed());
+            builder.setContent(
+                    "Successfully paid "
+                            + amount
+                            + "!"
+                            + " Remaining loan: "
+                            + player.getBorrowed());
         } else {
-            builder.setContent("Transaction failed. Current loan: " + player.getBorrowed() + ", current cash: " + player.getCash());
+            builder.setContent(
+                    "Transaction failed. Current loan: "
+                            + player.getBorrowed()
+                            + ", current cash: "
+                            + player.getCash());
         }
         return builder.build();
     }

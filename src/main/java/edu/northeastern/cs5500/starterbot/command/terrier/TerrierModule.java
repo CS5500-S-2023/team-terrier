@@ -69,4 +69,16 @@ public class TerrierModule {
     public SlashHandler providePaySlash(PayCommand command) {
         return command;
     }
+
+    @Provides
+    @IntoSet
+    public TerrierCommand provideListCommand(ListCommand command) {
+        return command;
+    }
+
+    @Provides
+    @IntoSet
+    public SlashHandler provideListSlash(ListCommand command) {
+        return command;
+    }
 }

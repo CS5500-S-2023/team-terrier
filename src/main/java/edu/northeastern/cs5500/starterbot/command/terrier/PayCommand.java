@@ -1,6 +1,8 @@
 package edu.northeastern.cs5500.starterbot.command.terrier;
 
 import edu.northeastern.cs5500.starterbot.command.terrier.group.BankGroup;
+import edu.northeastern.cs5500.starterbot.database.Database;
+import edu.northeastern.cs5500.starterbot.model.Player;
 import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -19,6 +21,8 @@ public class PayCommand implements TerrierCommand, SlashHandler {
     public PayCommand() {
         /** Injected default constructor */
     }
+
+    @Inject Database<Long, Player> players;
 
     @Nonnull private static final String OPTION_KEY = "amount";
 
@@ -52,9 +56,25 @@ public class PayCommand implements TerrierCommand, SlashHandler {
                 break;
             }
         }
-
-        return new MessageCreateBuilder()
-                .setContent("Terrier has successfully paid " + amount + "!")
-                .build();
+        Player player = players.get(snowflakeId);
+        MessageCreateBuilder builder = new MessageCreateBuilder();
+        if (player == null) {
+            builder.setContent("Terrier doesn't know who you are. Try command /terrier welcome");
+        } else if (player.pay(amount)) {
+            players.update(player);
+            builder.setContent(
+                    "Successfully paid "
+                            + amount
+                            + "!"
+                            + " Remaining loan: "
+                            + player.getBorrowed());
+        } else {
+            builder.setContent(
+                    "Transaction failed. Current loan: "
+                            + player.getBorrowed()
+                            + ", current cash: "
+                            + player.getCash());
+        }
+        return builder.build();
     }
 }

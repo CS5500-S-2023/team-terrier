@@ -3,7 +3,9 @@ package edu.northeastern.cs5500.starterbot.model;
 import java.time.LocalDate;
 import javax.annotation.Nonnull;
 import lombok.Getter;
+import lombok.ToString;
 
+@ToString(includeFieldNames = true)
 public class Player implements Tuple<Long> {
 
     private static final double DAILY_REWARD = 5000;

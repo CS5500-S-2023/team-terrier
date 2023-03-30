@@ -4,40 +4,28 @@ import com.google.common.truth.Truth;
 import dagger.Component;
 import edu.northeastern.cs5500.starterbot.command.terrier.PayCommand;
 import edu.northeastern.cs5500.starterbot.command.terrier.TerrierModule;
+import edu.northeastern.cs5500.starterbot.database.Database;
+import edu.northeastern.cs5500.starterbot.database.DatabaseModule;
+import edu.northeastern.cs5500.starterbot.model.Player;
 import java.util.ArrayList;
 import javax.inject.Singleton;
-import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import org.junit.Test;
 
-@Component(modules = {TerrierModule.class})
+@Component(modules = {TerrierModule.class, DatabaseModule.class})
 @Singleton
 interface PayCommandComponent {
     public PayCommand command();
+
+    public Database<Long, Player> database();
 }
 
 public class PayCommandTest {
 
-    private final PayCommand command = DaggerPayCommandComponent.create().command();
-
     @Test
-    public void testDescriptor() {
-        SubcommandData descriptor = command.getDescriptor();
-        Truth.assertThat(descriptor.getName()).isNotEmpty();
-        Truth.assertThat(descriptor.getDescription()).isNotEmpty();
-        Truth.assertThat(descriptor.getOptions()).isNotEmpty();
-    }
-
-    @Test
-    public void testGroup() {
-        Truth.assertThat(command.getGroup()).isNotNull();
-    }
-
-    /**
-     * Test for temporary unfinished pay function. This test would be rewritten once "terrier bank
-     * pay" command is fully implemented.
-     */
-    @Test
-    public void testInteraction() {
-        Truth.assertThat(command.onSlashInteraction(0, new ArrayList<>())).isNotNull();
+    public void testPay() {
+        PayCommand command = DaggerPayCommandComponent.create().command();
+        Truth.assertThat(command.getGroup().getName()).isEqualTo("bank");
+        Truth.assertThat(command.getDescriptor().getName()).isEqualTo("pay");
+        Truth.assertThat(command.onSlashInteraction(0, new ArrayList<>()).getContent()).isNotNull();
     }
 }

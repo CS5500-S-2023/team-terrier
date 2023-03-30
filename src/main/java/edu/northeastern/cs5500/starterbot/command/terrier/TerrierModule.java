@@ -30,6 +30,12 @@ public class TerrierModule {
 
     @Provides
     @IntoSet
+    public ButtonHandler provideWelcomeButton(WelcomeCommand command) {
+        return command;
+    }
+
+    @Provides
+    @IntoSet
     public TerrierCommand provideMeCommand(MeCommand command) {
         return command;
     }

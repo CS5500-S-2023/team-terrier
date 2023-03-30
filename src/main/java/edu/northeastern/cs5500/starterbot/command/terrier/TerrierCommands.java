@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
@@ -22,6 +23,7 @@ public class TerrierCommands {
     @Inject @Nonnull Set<SubcommandGroupData> groups;
     @Nonnull Map<String, TerrierCommand> commandMap = new HashMap<>();
     @Nonnull Map<String, SlashHandler> slashMap = new HashMap<>();
+    @Nonnull Map<String, ButtonHandler> buttonMap = new HashMap<>();
 
     /**
      * Map out commands in format <Subcommand Name, Trait>.
@@ -31,7 +33,9 @@ public class TerrierCommands {
      */
     @Inject
     public TerrierCommands(
-            @Nonnull Set<TerrierCommand> commands, @Nonnull Set<SlashHandler> slashHandlers) {
+            @Nonnull Set<TerrierCommand> commands,
+            @Nonnull Set<SlashHandler> slashHandlers,
+            @Nonnull Set<ButtonHandler> buttonHandlers) {
         // Map TerrierCommand traits.
         for (TerrierCommand command : commands) {
             String key = command.getDescriptor().getName();
@@ -44,7 +48,20 @@ public class TerrierCommands {
         // Map SlashHandlers traits.
         for (SlashHandler handler : slashHandlers) {
             String key = handler.getDescriptor().getName();
+            if (slashMap.containsKey(key)) {
+                throw new RuntimeException("Subcommand name collision found");
+            }
             slashMap.put(key, handler);
+        }
+
+        // Map ButtonHandlers traits.
+        for (ButtonHandler handler : buttonHandlers) {
+            for (String key : handler.getButtonNames()) {
+                if (buttonMap.containsKey(key)) {
+                    throw new RuntimeException("Button name collision found");
+                }
+                buttonMap.put(key, handler);
+            }
         }
     }
 
@@ -86,6 +103,22 @@ public class TerrierCommands {
                     .build();
         }
         log.info("/" + event.getFullCommandName());
-        return slashMap.get(key).onSlashInteraction(event.getIdLong(), event.getOptions());
+        return slashMap.get(key)
+                .onSlashInteraction(event.getUser().getIdLong(), event.getOptions());
+    }
+
+    @Nonnull
+    public MessageCreateData onButtonInteraction(@Nonnull ButtonInteractionEvent event) {
+        String key = event.getButton().getId();
+        if (!buttonMap.containsKey(key)) {
+            log.info("Unrecognized button id: " + key);
+            return new MessageCreateBuilder()
+                    .setContent("Terrier doesn't recognize this button!")
+                    .build();
+        }
+        log.info("button: " + key);
+        return buttonMap
+                .get(key)
+                .onButtonInteraction(event.getUser().getIdLong(), event.getButton());
     }
 }

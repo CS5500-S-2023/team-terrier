@@ -1,6 +1,6 @@
 package edu.northeastern.cs5500.starterbot.command.terrier;
 
-import edu.northeastern.cs5500.starterbot.database.Database;
+import edu.northeastern.cs5500.starterbot.dao.PlayerDao;
 import edu.northeastern.cs5500.starterbot.model.Player;
 import java.util.List;
 import javax.annotation.Nonnull;
@@ -21,7 +21,7 @@ public class WelcomeCommand implements TerrierCommand, SlashHandler, ButtonHandl
             "http://t2.gstatic.com/licensed-image?q=tbn:ANd9GcQwUa3xK4Y_m-j8mXtjHM_WZ0lE9nWvzSr6sA4rbfDacySYS4roE11ftbZh2ildPCtqBuJdL2cHMQhSLdU";
     private static final String CLAIM_BUTTON_ID = "claim";
 
-    @Inject Database<Long, Player> players;
+    @Inject PlayerDao playerDao;
 
     @Inject
     public WelcomeCommand() {
@@ -42,13 +42,7 @@ public class WelcomeCommand implements TerrierCommand, SlashHandler, ButtonHandl
     @Nonnull
     public MessageCreateData onSlashInteraction(
             long snowflakeId, @Nonnull List<OptionMapping> options) {
-        Player player = players.get(snowflakeId);
-        if (player == null) {
-            player = new Player(snowflakeId);
-            players.create(player);
-            log.info("New user: " + snowflakeId);
-        }
-
+        Player player = playerDao.getOrCreate(snowflakeId);
         MessageCreateBuilder builder = new MessageCreateBuilder().setContent(IMAGE_URL);
         if (player.eligibleForDailyReward()) {
             builder.addActionRow(Button.success(CLAIM_BUTTON_ID, "Claim daily rewards"));
@@ -65,15 +59,12 @@ public class WelcomeCommand implements TerrierCommand, SlashHandler, ButtonHandl
     @Override
     @Nonnull
     public MessageCreateData onButtonInteraction(long snowflakeId, @Nonnull Button button) {
-        Player player = players.get(snowflakeId);
-        if (player == null) {
-            throw new RuntimeException("Impossible for player to be null: " + snowflakeId);
-        }
+        Player player = playerDao.getOrCreate(snowflakeId);
 
         MessageCreateBuilder builder =
                 new MessageCreateBuilder().setContent("Already claimed today's rewards!");
         if (player.claimDailyReward()) {
-            players.update(player);
+            playerDao.insertOrUpdate(player);
             builder.setContent("Successfully claimed money!");
         }
 

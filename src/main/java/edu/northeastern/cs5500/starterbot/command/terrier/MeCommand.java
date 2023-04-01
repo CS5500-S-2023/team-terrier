@@ -1,6 +1,6 @@
 package edu.northeastern.cs5500.starterbot.command.terrier;
 
-import edu.northeastern.cs5500.starterbot.database.Database;
+import edu.northeastern.cs5500.starterbot.dao.PlayerDao;
 import edu.northeastern.cs5500.starterbot.model.Player;
 import java.util.List;
 import javax.annotation.Nonnull;
@@ -28,22 +28,18 @@ public class MeCommand implements TerrierCommand, SlashHandler {
         return DESCRIPTOR;
     }
 
-    @Inject Database<Long, Player> players;
+    @Inject PlayerDao playerDao;
 
     @Override
     @Nonnull
     public MessageCreateData onSlashInteraction(
             long snowflakeId, @Nonnull List<OptionMapping> options) {
-        Player player = players.get(snowflakeId);
+        Player player = playerDao.getOrCreate(snowflakeId);
         MessageCreateBuilder builder = new MessageCreateBuilder();
-        if (player == null) {
-            builder.setContent("Terrier doesn't recognize you yet! Trying using /terrier welcome.");
-        } else {
-            String full = player.toString();
-            String pretty =
-                    full.substring(full.indexOf("(") + 1, full.indexOf(")")).replace(", ", "\n");
-            builder.setContent(pretty);
-        }
+        String full = player.toString();
+        String pretty =
+                full.substring(full.indexOf("(") + 1, full.indexOf(")")).replace(", ", "\n");
+        builder.setContent(pretty);
         return builder.build();
     }
 }

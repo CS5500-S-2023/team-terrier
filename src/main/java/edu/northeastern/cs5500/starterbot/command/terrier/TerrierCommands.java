@@ -40,7 +40,7 @@ public class TerrierCommands {
         for (TerrierCommand command : commands) {
             String key = command.getDescriptor().getName();
             if (commandMap.containsKey(key)) {
-                throw new RuntimeException("Subcommand name collision found");
+                throw new IllegalArgumentException("Subcommand name collision found");
             }
             commandMap.put(key, command);
         }
@@ -49,7 +49,7 @@ public class TerrierCommands {
         for (SlashHandler handler : slashHandlers) {
             String key = handler.getDescriptor().getName();
             if (slashMap.containsKey(key)) {
-                throw new RuntimeException("Subcommand name collision found");
+                throw new IllegalArgumentException("Subcommand name collision found");
             }
             slashMap.put(key, handler);
         }
@@ -58,7 +58,7 @@ public class TerrierCommands {
         for (ButtonHandler handler : buttonHandlers) {
             for (String key : handler.getButtonNames()) {
                 if (buttonMap.containsKey(key)) {
-                    throw new RuntimeException("Button name collision found");
+                    throw new IllegalArgumentException("Button name collision found");
                 }
                 buttonMap.put(key, handler);
             }

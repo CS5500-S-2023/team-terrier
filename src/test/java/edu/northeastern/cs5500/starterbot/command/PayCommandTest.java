@@ -4,19 +4,15 @@ import com.google.common.truth.Truth;
 import dagger.Component;
 import edu.northeastern.cs5500.starterbot.command.terrier.PayCommand;
 import edu.northeastern.cs5500.starterbot.command.terrier.TerrierModule;
-import edu.northeastern.cs5500.starterbot.database.Database;
-import edu.northeastern.cs5500.starterbot.database.DatabaseModule;
-import edu.northeastern.cs5500.starterbot.model.Player;
+import edu.northeastern.cs5500.starterbot.dao.DaoTestModule;
 import java.util.ArrayList;
 import javax.inject.Singleton;
 import org.junit.Test;
 
-@Component(modules = {TerrierModule.class, DatabaseModule.class})
+@Component(modules = {TerrierModule.class, DaoTestModule.class})
 @Singleton
 interface PayCommandComponent {
     public PayCommand command();
-
-    public Database<Long, Player> database();
 }
 
 public class PayCommandTest {

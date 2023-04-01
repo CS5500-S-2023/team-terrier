@@ -1,7 +1,7 @@
 package edu.northeastern.cs5500.starterbot.command.terrier;
 
 import edu.northeastern.cs5500.starterbot.command.terrier.group.BankGroup;
-import edu.northeastern.cs5500.starterbot.database.Database;
+import edu.northeastern.cs5500.starterbot.dao.PlayerDao;
 import edu.northeastern.cs5500.starterbot.model.Player;
 import java.util.List;
 import javax.annotation.Nonnull;
@@ -22,7 +22,7 @@ public class PayCommand implements TerrierCommand, SlashHandler {
         /** Injected default constructor */
     }
 
-    @Inject Database<Long, Player> players;
+    @Inject PlayerDao playerDao;
 
     @Nonnull private static final String OPTION_KEY = "amount";
 
@@ -56,12 +56,10 @@ public class PayCommand implements TerrierCommand, SlashHandler {
                 break;
             }
         }
-        Player player = players.get(snowflakeId);
+        Player player = playerDao.getOrCreate(snowflakeId);
         MessageCreateBuilder builder = new MessageCreateBuilder();
-        if (player == null) {
-            builder.setContent("Terrier doesn't know who you are. Try command /terrier welcome");
-        } else if (player.pay(amount)) {
-            players.update(player);
+        if (player.pay(amount)) {
+            playerDao.insertOrUpdate(player);
             builder.setContent(
                     "Successfully paid "
                             + amount

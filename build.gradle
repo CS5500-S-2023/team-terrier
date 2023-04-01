@@ -68,7 +68,7 @@ dependencies {
 
 application {
     // Define the main class for the application.
-    mainClassName = 'edu.northeastern.cs5500.starterbot.App'
+    mainClassName = 'bot.discord.terrier.App'
 }
 
 // Enable jacoco coverage

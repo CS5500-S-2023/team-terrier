@@ -22,7 +22,9 @@ We know the knowledge needed to start coding in a new framework is enormous, so 
 
 ### Best Practices
 
-1. Always run `gradlew check` before commiting code.
+1. Always run `./gradlew check` before commiting code.
+2. Always run `./gradlew run` before creating a pull request.
+3. Use `./gradlew spotlessApply` to format code.
 
 ### FAQs
 

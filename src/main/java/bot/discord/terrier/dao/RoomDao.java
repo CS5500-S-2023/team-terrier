@@ -1,19 +1,17 @@
 package bot.discord.terrier.dao;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.annotation.Nonnull;
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
+import bot.discord.terrier.model.Room;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.ReplaceOptions;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
-import bot.discord.terrier.model.Room;
+import java.util.ArrayList;
+import java.util.List;
+import javax.annotation.Nonnull;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 @Singleton
 public class RoomDao {
@@ -28,11 +26,8 @@ public class RoomDao {
         rooms = database.getCollection(COLLECTION_NAME, Room.class);
     }
 
-    @Nonnull
-    public Room createRoom(String roomName) {
-        Room room = new Room(roomName);
-        rooms.insertOne(room);
-        return room;
+    public Room getRoomByName(String roomName) {
+        return rooms.find(Filters.eq(roomName)).first();
     }
 
     public List<Room> getRoomsByRegex(String regex, int num) {
@@ -49,5 +44,9 @@ public class RoomDao {
 
     public DeleteResult clearAllRooms() {
         return rooms.deleteMany(Filters.exists("_id"));
+    }
+
+    public long countRooms() {
+        return rooms.countDocuments();
     }
 }

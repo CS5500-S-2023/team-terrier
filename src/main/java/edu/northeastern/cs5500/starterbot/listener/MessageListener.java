@@ -1,15 +1,10 @@
 package edu.northeastern.cs5500.starterbot.listener;
 
-import edu.northeastern.cs5500.starterbot.command.SlashCommandHandler;
-import edu.northeastern.cs5500.starterbot.command.StringSelectHandler;
-import edu.northeastern.cs5500.starterbot.command.terrier.TerrierCommands;
+import edu.northeastern.cs5500.starterbot.command.TerrierCommands;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Set;
-import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
-import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.StringSelectInteractionEvent;
@@ -21,12 +16,8 @@ import net.dv8tion.jda.api.utils.messages.MessageCreateData;
  * This is essentially a callback scheduler that reacts to different events. For now only 3 type of
  * events are handled: 1. Slash commands 2. Button clicks 3. String selects
  */
-@Slf4j
 public class MessageListener extends ListenerAdapter {
     @Inject TerrierCommands terrierCommands;
-
-    @Inject Set<SlashCommandHandler> commands;
-    @Inject Set<StringSelectHandler> stringSelects;
 
     @Inject
     public MessageListener() {
@@ -36,26 +27,12 @@ public class MessageListener extends ListenerAdapter {
     /** Slash interaction callback entry point. */
     @Override
     public void onSlashCommandInteraction(@Nonnull SlashCommandInteractionEvent event) {
-        // Example interactions from Alex. Subject to deletion in the future.
-        for (SlashCommandHandler command : commands) {
-            if (command.getName().equals(event.getName())) {
-                command.onSlashCommandInteraction(event);
-                return;
-            }
-        }
-        // Our terrier slash event handlers.
         MessageCreateData reply = terrierCommands.onSlashInteraction(event);
         event.reply(reply).queue();
     }
 
     public @Nonnull Collection<CommandData> allCommandData() {
-        Collection<CommandData> commandData =
-                commands.stream()
-                        .map(SlashCommandHandler::getCommandData)
-                        .collect(Collectors.toList());
-        if (commandData == null) {
-            return new ArrayList<>();
-        }
+        Collection<CommandData> commandData = new ArrayList<>();
         commandData.add(terrierCommands.getDescriptors());
 
         return commandData;
@@ -69,16 +46,6 @@ public class MessageListener extends ListenerAdapter {
 
     @Override
     public void onStringSelectInteraction(@Nonnull StringSelectInteractionEvent event) {
-        log.info("onStringSelectInteraction: {}", event.getComponent().getId());
-        String handlerName = event.getComponent().getId();
-
-        for (StringSelectHandler stringSelectHandler : stringSelects) {
-            if (stringSelectHandler.getName().equals(handlerName)) {
-                stringSelectHandler.onStringSelectInteraction(event);
-                return;
-            }
-        }
-
-        log.error("Unknown button handler: {}", handlerName);
+        event.reply("No handler for this category yet").queue();
     }
 }

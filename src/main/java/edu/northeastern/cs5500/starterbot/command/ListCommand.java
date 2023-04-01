@@ -1,4 +1,4 @@
-package edu.northeastern.cs5500.starterbot.command.terrier;
+package edu.northeastern.cs5500.starterbot.command;
 
 import java.util.List;
 import javax.annotation.Nonnull;

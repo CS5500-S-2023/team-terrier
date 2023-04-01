@@ -2,8 +2,6 @@ package edu.northeastern.cs5500.starterbot.command;
 
 import com.google.common.truth.Truth;
 import dagger.Component;
-import edu.northeastern.cs5500.starterbot.command.terrier.PayCommand;
-import edu.northeastern.cs5500.starterbot.command.terrier.TerrierModule;
 import edu.northeastern.cs5500.starterbot.dao.DaoTestModule;
 import java.util.ArrayList;
 import javax.inject.Singleton;

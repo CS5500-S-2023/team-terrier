@@ -1,4 +1,4 @@
-package edu.northeastern.cs5500.starterbot.command.terrier.group;
+package edu.northeastern.cs5500.starterbot.command.group;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;

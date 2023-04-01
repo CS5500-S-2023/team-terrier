@@ -2,8 +2,6 @@ package edu.northeastern.cs5500.starterbot.command;
 
 import com.google.common.truth.Truth;
 import dagger.Component;
-import edu.northeastern.cs5500.starterbot.command.terrier.ListCommand;
-import edu.northeastern.cs5500.starterbot.command.terrier.TerrierModule;
 import java.util.ArrayList;
 import javax.inject.Singleton;
 import org.junit.jupiter.api.Test;

@@ -1,9 +1,9 @@
-package edu.northeastern.cs5500.starterbot.command.terrier;
+package edu.northeastern.cs5500.starterbot.command;
 
 import dagger.Module;
 import dagger.Provides;
 import dagger.multibindings.IntoSet;
-import edu.northeastern.cs5500.starterbot.command.terrier.group.BankGroup;
+import edu.northeastern.cs5500.starterbot.command.group.BankGroup;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandGroupData;
 
 @Module

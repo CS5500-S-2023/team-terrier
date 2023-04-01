@@ -1,4 +1,4 @@
-package edu.northeastern.cs5500.starterbot.command.terrier;
+package edu.northeastern.cs5500.starterbot.command;
 
 import edu.northeastern.cs5500.starterbot.dao.PlayerDao;
 import edu.northeastern.cs5500.starterbot.model.Player;

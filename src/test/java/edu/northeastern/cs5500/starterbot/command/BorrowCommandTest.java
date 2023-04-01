@@ -5,8 +5,6 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import dagger.Component;
-import edu.northeastern.cs5500.starterbot.command.terrier.BorrowCommand;
-import edu.northeastern.cs5500.starterbot.command.terrier.TerrierModule;
 import edu.northeastern.cs5500.starterbot.dao.DaoTestModule;
 import edu.northeastern.cs5500.starterbot.dao.PlayerDao;
 import edu.northeastern.cs5500.starterbot.model.Player;

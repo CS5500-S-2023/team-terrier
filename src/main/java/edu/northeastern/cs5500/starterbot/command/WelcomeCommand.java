@@ -1,4 +1,4 @@
-package edu.northeastern.cs5500.starterbot.command.terrier;
+package edu.northeastern.cs5500.starterbot.command;
 
 import edu.northeastern.cs5500.starterbot.dao.PlayerDao;
 import edu.northeastern.cs5500.starterbot.model.Player;
@@ -6,7 +6,6 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
@@ -14,7 +13,6 @@ import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 
 @Singleton
-@Slf4j
 public class WelcomeCommand implements TerrierCommand, SlashHandler, ButtonHandler {
 
     private static final String IMAGE_URL =

@@ -2,10 +2,7 @@ package bot.discord.terrier.command;
 
 import bot.discord.terrier.dao.DaoTestModule;
 import bot.discord.terrier.dao.PlayerDao;
-import bot.discord.terrier.model.Player;
 import com.google.common.truth.Truth;
-import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.model.Filters;
 import dagger.Component;
 import java.util.ArrayList;
 import javax.inject.Singleton;
@@ -18,50 +15,46 @@ interface WelcomeCommandComponent {
     public WelcomeCommand command();
 
     public PlayerDao playerDao();
-
-    public MongoDatabase database();
 }
 
 class WelcomeCommandTest {
+    // Commands don't contain state.
+    private final WelcomeCommand command = DaggerWelcomeCommandComponent.create().command();
+    // DAO don't contain state.
+    private final PlayerDao playerDao = DaggerWelcomeCommandComponent.create().playerDao();
 
     @Test
-    void testWelcome() {
-        WelcomeCommand command = DaggerWelcomeCommandComponent.create().command();
+    void testAttributes() {
         Truth.assertThat(command.getGroup()).isNull();
         Truth.assertThat(command.getDescriptor().getName()).isEqualTo("welcome");
-        Truth.assertThat(command.onSlashInteraction(0, new ArrayList<>()).getContent()).isNotNull();
     }
 
     @Test
     void testNewPlayer() {
-        var component = DaggerWelcomeCommandComponent.create();
-        var command = component.command();
-        var players = component.database().getCollection("players", Player.class);
-        players.deleteMany(Filters.exists("_id"));
+        // Clear database.
+        playerDao.clearPlayers();
+        Truth.assertThat(playerDao.countPlayers()).isEqualTo(0);
 
-        Truth.assertThat(players.countDocuments()).isEqualTo(0);
         Truth.assertThat(command.onSlashInteraction(0, new ArrayList<>()).getContent()).isNotNull();
-        Truth.assertThat(players.countDocuments()).isEqualTo(1);
+        Truth.assertThat(playerDao.countPlayers()).isEqualTo(1);
         Truth.assertThat(command.onSlashInteraction(0, new ArrayList<>()).getContent()).isNotNull();
-        Truth.assertThat(players.countDocuments()).isEqualTo(1);
+        Truth.assertThat(playerDao.countPlayers()).isEqualTo(1);
     }
 
     @Test
     void testInteractions() {
-        var component = DaggerWelcomeCommandComponent.create();
-        var command = component.command();
-        var playerDao = component.playerDao();
-        var players = component.database().getCollection("players", Player.class);
-        players.deleteMany(Filters.exists("_id"));
+        // Clear database.
+        playerDao.clearPlayers();
+        Truth.assertThat(playerDao.countPlayers()).isEqualTo(0);
 
         // Has the action row.
         Truth.assertThat(command.onSlashInteraction(0, new ArrayList<>()).getComponents())
                 .isNotEmpty();
-        Truth.assertThat(players.countDocuments()).isEqualTo(1);
+        Truth.assertThat(playerDao.countPlayers()).isEqualTo(1);
         // Still appears.
         Truth.assertThat(command.onSlashInteraction(0, new ArrayList<>()).getComponents())
                 .isNotEmpty();
-        Truth.assertThat(players.countDocuments()).isEqualTo(1);
+        Truth.assertThat(playerDao.countPlayers()).isEqualTo(1);
 
         // Claims daily reward.
         Truth.assertThat(command.onButtonInteraction(0, Button.success("id", "label")).getContent())

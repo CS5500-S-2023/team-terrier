@@ -17,13 +17,6 @@ import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 
 @Singleton
 public class PayCommand implements TerrierCommand, SlashHandler {
-    @Inject
-    public PayCommand() {
-        /** Injected default constructor */
-    }
-
-    @Inject PlayerDao playerDao;
-
     @Nonnull private static final String OPTION_KEY = "amount";
 
     @Nonnull
@@ -31,13 +24,19 @@ public class PayCommand implements TerrierCommand, SlashHandler {
             new SubcommandData("pay", "Terrier Pays!")
                     .addOption(OptionType.NUMBER, OPTION_KEY, "Amount of money to pay", true);
 
+    @Inject PlayerDao playerDao;
+    @Inject BankGroup group;
+
+    @Inject
+    public PayCommand() {
+        /** Injected default constructor */
+    }
+
     @Override
     @Nonnull
     public SubcommandData getDescriptor() {
         return DESCRIPTOR;
     }
-
-    @Inject BankGroup group;
 
     @Override
     @Nullable
@@ -56,6 +55,11 @@ public class PayCommand implements TerrierCommand, SlashHandler {
                 break;
             }
         }
+        return tryPay(snowflakeId, amount);
+    }
+
+    @Nonnull
+    public MessageCreateData tryPay(long snowflakeId, double amount) {
         Player player = playerDao.getOrCreate(snowflakeId);
         MessageCreateBuilder builder = new MessageCreateBuilder();
         if (player.pay(amount)) {

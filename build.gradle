@@ -94,6 +94,16 @@ jacocoTestReport {
     }
 }
 
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            limit {
+                minimum = 0.4
+            }
+        }
+    }
+}
+
 // Check coverage after each test run
 check.dependsOn jacocoTestCoverageVerification
 

@@ -2,6 +2,7 @@ package bot.discord.terrier.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.Nonnull;
 import lombok.Data;
 import org.bson.codecs.pojo.annotations.BsonId;
 
@@ -9,13 +10,15 @@ import org.bson.codecs.pojo.annotations.BsonId;
 public class Room {
 
     /** Primary key */
-    @BsonId private String roomName;
+    @Nonnull @BsonId private String roomName = "invalid";
 
-    private List<Long> players;
+    @Nonnull private List<Long> players = new ArrayList<>();
 
-    public Room(String roomName) {
+    /** Needed by MongoDB for deserialization. */
+    public Room() {}
+
+    public Room(@Nonnull String roomName) {
         this.roomName = roomName;
-        this.players = new ArrayList<>();
     }
 
     public int getSize() {

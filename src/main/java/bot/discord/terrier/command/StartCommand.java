@@ -2,6 +2,7 @@ package bot.discord.terrier.command;
 
 import bot.discord.terrier.dao.PlayerDao;
 import bot.discord.terrier.dao.RoomDao;
+import bot.discord.terrier.model.Player;
 import bot.discord.terrier.model.Room;
 import java.util.List;
 import javax.annotation.Nonnull;
@@ -23,7 +24,7 @@ public class StartCommand implements TerrierCommand, SlashHandler {
                     .addOption(OptionType.STRING, OPTION_NAME, "Terrier gets the name!", true);
 
     @Inject RoomDao roomDao;
-    @Inject PlayerDao PlayerDao;
+    @Inject PlayerDao playerDao;
 
     @Inject
     public StartCommand() {
@@ -40,29 +41,50 @@ public class StartCommand implements TerrierCommand, SlashHandler {
     @Nonnull
     public MessageCreateData onSlashInteraction(
             long snowflakeId, @Nonnull List<OptionMapping> options) {
-        String name = "";
+        String name = null;
         for (OptionMapping mapping : options) {
             if (OPTION_NAME.equals(mapping.getName())) {
                 name = mapping.getAsString();
                 break;
             }
         }
-
-        if (createNewRoom(name, snowflakeId)) {
-            return new MessageCreateBuilder()
-                    .setContent("Terrier creates a new room " + name + "!")
-                    .build();
+        if (name == null) {
+            throw new NullPointerException();
         }
-        return new MessageCreateBuilder().setContent("This room has already been created.").build();
+
+        return createNewRoom(snowflakeId, name);
     }
 
-    public boolean createNewRoom(@Nonnull String name, long snowflakeId) {
-        if (roomDao.getRoomByName(name) == null) {
-            Room room = new Room(name);
-            room.getPlayers().add(snowflakeId);
-            roomDao.insertOrUpdate(room);
-            return true;
+    @Nonnull
+    public MessageCreateData createNewRoom(long snowflakeId, @Nonnull String name) {
+        MessageCreateBuilder builder = new MessageCreateBuilder();
+
+        // Check room state.
+        Room room = roomDao.getRoomByName(name);
+        if (room != null) {
+            builder.setContent(String.format("Room \"%s\" already exists.", name));
+            return builder.build();
         }
-        return false;
+
+        // Check player state.
+        Player player = playerDao.getOrCreate(snowflakeId);
+        if (player.getRoomName() != null) {
+            builder.setContent(
+                    String.format(
+                            "You're already in room \"%s\". Please leave that room first.",
+                            player.getRoomName()));
+            return builder.build();
+        }
+
+        // Create room in-memory.
+        room = new Room(name);
+        room.getPlayers().add(snowflakeId);
+        player.setRoomName(name);
+        // Sync to database.
+        roomDao.insertOrUpdate(room);
+        playerDao.insertOrUpdate(player);
+        builder.setContent(String.format("Successfully created room \"%s\"", name));
+
+        return builder.build();
     }
 }

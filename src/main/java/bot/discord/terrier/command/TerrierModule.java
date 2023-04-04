@@ -84,6 +84,12 @@ public class TerrierModule {
 
     @Provides
     @IntoSet
+    public ButtonHandler provideListButton(ListCommand command) {
+        return command;
+    }
+
+    @Provides
+    @IntoSet
     public TerrierCommand provideStartCommand(StartCommand command) {
         return command;
     }

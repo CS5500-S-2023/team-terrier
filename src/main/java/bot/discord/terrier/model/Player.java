@@ -16,6 +16,7 @@ public class Player {
     private LocalDate lastClaimedDate = null;
     private double cash = 0;
     private double borrowed = 0;
+    private String roomName = null;
 
     // Need this constructor for MongoDB deserialization.
     public Player() {}

@@ -28,10 +28,20 @@ public class StartCommandTest {
 
     @Test
     void testInteraction() {
+        var reply = command.onSlashInteraction(0, new ArrayList<>());
+        Truth.assertThat(reply.getContent()).isNotNull();
+    }
+
+    @Test
+    void testCreateByName() {
         roomDao.clearAllRooms();
         Truth.assertThat(roomDao.countRooms()).isEqualTo(0);
 
-        var reply = command.onSlashInteraction(0, new ArrayList<>());
-        Truth.assertThat(reply.getContent()).isNotNull();
+        Truth.assertThat(command.createNewRoom("test", 0)).isTrue();
+        Truth.assertThat(roomDao.countRooms()).isEqualTo(1);
+        Truth.assertThat(command.createNewRoom("test", 0)).isFalse();
+        Truth.assertThat(roomDao.countRooms()).isEqualTo(1);
+        Truth.assertThat(command.createNewRoom("test", 1)).isFalse();
+        Truth.assertThat(roomDao.countRooms()).isEqualTo(1);
     }
 }

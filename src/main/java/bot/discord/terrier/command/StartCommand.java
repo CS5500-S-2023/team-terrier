@@ -20,7 +20,7 @@ public class StartCommand implements TerrierCommand, SlashHandler {
     @Nonnull
     private static final SubcommandData DESCRIPTOR =
             new SubcommandData("start", "Woof! Terrier creates new rooms!")
-                    .addOption(OptionType.STRING, OPTION_NAME, "Terrier gets the name!", false);
+                    .addOption(OptionType.STRING, OPTION_NAME, "Terrier gets the name!", true);
 
     @Inject RoomDao roomDao;
     @Inject PlayerDao PlayerDao;
@@ -48,14 +48,21 @@ public class StartCommand implements TerrierCommand, SlashHandler {
             }
         }
 
-        if (roomDao.getRoomByName(name) == null) {
-            Room room = new Room(name);
-            room.getPlayers().add(snowflakeId);
-            roomDao.insertOrUpdate(room);
+        if (createNewRoom(name, snowflakeId)) {
             return new MessageCreateBuilder()
                     .setContent("Terrier creates a new room " + name + "!")
                     .build();
         }
         return new MessageCreateBuilder().setContent("This room has already been created.").build();
+    }
+
+    public boolean createNewRoom(@Nonnull String name, long snowflakeId) {
+        if (roomDao.getRoomByName(name) == null) {
+            Room room = new Room(name);
+            room.getPlayers().add(snowflakeId);
+            roomDao.insertOrUpdate(room);
+            return true;
+        }
+        return false;
     }
 }

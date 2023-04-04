@@ -7,7 +7,7 @@ import com.google.common.truth.Truth;
 import dagger.Component;
 import java.util.ArrayList;
 import javax.inject.Singleton;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 @Component(modules = {TerrierModule.class, DaoTestModule.class})
 @Singleton
@@ -19,7 +19,7 @@ interface StartCommandComponent {
     public PlayerDao playerDao();
 }
 
-public class StartCommandTest {
+class StartCommandTest {
     private final StartCommand command = DaggerStartCommandComponent.create().command();
     private final RoomDao roomDao = DaggerStartCommandComponent.create().roomDao();
     private final PlayerDao playerDao = DaggerStartCommandComponent.create().playerDao();

@@ -81,4 +81,16 @@ public class TerrierModule {
     public SlashHandler provideListSlash(ListCommand command) {
         return command;
     }
+
+    @Provides
+    @IntoSet
+    public TerrierCommand provideStartCommand(StartCommand command) {
+        return command;
+    }
+
+    @Provides
+    @IntoSet
+    public SlashHandler provideStartSlash(StartCommand command) {
+        return command;
+    }
 }

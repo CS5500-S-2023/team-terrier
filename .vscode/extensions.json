@@ -8,6 +8,7 @@
         "jebbs.plantuml",
         "madhavd1.javadoc-tools",
         "github.vscode-pull-request-github",
-        "sonarsource.sonarlint-vscode"
+        "sonarsource.sonarlint-vscode",
+        "george-alisson.html-preview-vscode"
     ]
 }

@@ -10,6 +10,7 @@ import com.mongodb.client.result.UpdateResult;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
@@ -26,6 +27,7 @@ public class RoomDao {
         rooms = database.getCollection(COLLECTION_NAME, Room.class);
     }
 
+    @Nullable
     public Room getRoomByName(String roomName) {
         return rooms.find(Filters.eq(roomName)).first();
     }

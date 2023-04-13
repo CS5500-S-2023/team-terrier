@@ -2,6 +2,7 @@ package bot.discord.terrier.command;
 
 import bot.discord.terrier.dao.DaoTestModule;
 import bot.discord.terrier.dao.PlayerDao;
+import bot.discord.terrier.model.Player;
 import com.google.common.truth.Truth;
 import dagger.Component;
 import java.util.ArrayList;
@@ -44,7 +45,22 @@ class MeCommandTest {
 
     @Test
     void testButtonInteraction() {
-        Truth.assertThat(command.payAsPossible(0).getContent()).isNotEmpty();
-        Truth.assertThat(command.borrowAsPossible(0).getContent()).isNotEmpty();
+        playerDao.clearPlayers();
+        Player player = new Player(0);
+        player.setCash(1000);
+        player.setBorrowed(5000);
+        playerDao.insertOrUpdate(player);
+
+        // test pay as possible
+        Truth.assertThat(command.payAsPossible(0).getContent()).contains("1000");
+        player = playerDao.getOrCreate(0);
+        Truth.assertThat(player.getCash()).isEqualTo(0);
+        Truth.assertThat(player.getBorrowed()).isEqualTo(4000);
+
+        // test borrow as possible
+        Truth.assertThat(command.borrowAsPossible(0).getContent()).contains("6000");
+        player = playerDao.getOrCreate(0);
+        Truth.assertThat(player.getCash()).isEqualTo(6000);
+        Truth.assertThat(player.getBorrowed()).isEqualTo(10000);
     }
 }

@@ -48,6 +48,12 @@ public class TerrierModule {
 
     @Provides
     @IntoSet
+    public ButtonHandler provideMeButton(MeCommand command) {
+        return command;
+    }
+
+    @Provides
+    @IntoSet
     public TerrierCommand provideBorrowCommand(BorrowCommand command) {
         return command;
     }

@@ -25,6 +25,10 @@ public class Player {
         this.snowflakeId = snowflakeId;
     }
 
+    public double getMaxBorrow() {
+        return MAX_BORROW_AMOUNT;
+    }
+
     public boolean eligibleForDailyReward() {
         return lastClaimedDate == null || lastClaimedDate.isBefore(LocalDate.now());
     }

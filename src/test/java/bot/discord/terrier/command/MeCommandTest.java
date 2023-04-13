@@ -32,7 +32,7 @@ class MeCommandTest {
     }
 
     @Test
-    void testInteraction() {
+    void testSlashInteraction() {
         // Clear database.
         playerDao.clearPlayers();
         Truth.assertThat(playerDao.countPlayers()).isEqualTo(0);
@@ -40,5 +40,11 @@ class MeCommandTest {
         Truth.assertThat(command.onSlashInteraction(0, new ArrayList<>()).getContent())
                 .isNotEmpty();
         Truth.assertThat(playerDao.countPlayers()).isEqualTo(1);
+    }
+
+    @Test
+    void testButtonInteraction() {
+        Truth.assertThat(command.payAsPossible(0).getContent()).isNotEmpty();
+        Truth.assertThat(command.borrowAsPossible(0).getContent()).isNotEmpty();
     }
 }

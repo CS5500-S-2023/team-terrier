@@ -74,6 +74,13 @@ public class MeCommand implements TerrierCommand, SlashHandler, ButtonHandler {
         double cash = player.getCash();
         double borrowed = player.getBorrowed();
 
+        if (borrowed == 0) {
+            return builder.setContent("There's no debts. No need to pay.").build();
+        }
+        if (cash == 0) {
+            return builder.setContent("There's no cash. Transaction failed.").build();
+        }
+
         if (cash >= borrowed) {
             player.setCash(cash - borrowed);
             player.setBorrowed(0);

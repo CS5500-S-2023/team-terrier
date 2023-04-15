@@ -86,11 +86,8 @@ test {
 jacocoTestReport {
     dependsOn test
     reports {
-        xml.enabled false
         html.enabled true
-        csv.enabled false
-        xml.destination file("${buildDir}/reports/jacoco.xml")
-        html.destination file("${buildDir}/reports/jacoco.html")
+        html.destination file("${buildDir}/reports/jacoco/")
     }
 }
 

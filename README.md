@@ -62,3 +62,7 @@ A: Follow these steps carefully.
 7. On the right, select **bot** and **applications.commands**, then copy the URL on the bottom.
 8. Create a new server/channel in your own discord account, then paste the URL in your browser, and add the bot to your server.
 9. Test that the bot is working in 2 ways: the bot should be online, and specific slash commands should be available, such as `/button`.
+
+Q: How do view test coverage?
+
+A: Supposing that you've already ran the tests and that Jacoco test report has already been generated, in order to view it in your browser, use the following command and change the directory accordingly: `python3 -m http.server --directory build/reports/jacoco/ 8080`.

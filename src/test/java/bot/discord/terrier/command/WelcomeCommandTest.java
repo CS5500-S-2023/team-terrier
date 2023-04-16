@@ -3,10 +3,13 @@ package bot.discord.terrier.command;
 import bot.discord.terrier.dao.DaoTestModule;
 import bot.discord.terrier.dao.PlayerDao;
 import com.google.common.truth.Truth;
+import com.mongodb.client.MongoDatabase;
 import dagger.Component;
 import java.util.ArrayList;
 import javax.inject.Singleton;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 @Component(modules = {TerrierModule.class, DaoTestModule.class})
@@ -15,13 +18,23 @@ interface WelcomeCommandComponent {
     public WelcomeCommand command();
 
     public PlayerDao playerDao();
+
+    public MongoDatabase database();
 }
 
 class WelcomeCommandTest {
+    private final WelcomeCommandComponent component = DaggerWelcomeCommandComponent.create();
     // Commands don't contain state.
-    private final WelcomeCommand command = DaggerWelcomeCommandComponent.create().command();
-    // DAO don't contain state.
-    private final PlayerDao playerDao = DaggerWelcomeCommandComponent.create().playerDao();
+    private final WelcomeCommand command = component.command();
+    // DAOs don't contain state.
+    private final PlayerDao playerDao = component.playerDao();
+    private final MongoDatabase database = component.database();
+
+    @BeforeEach
+    @AfterEach
+    void cleanup() {
+        database.drop();
+    }
 
     @Test
     void testAttributes() {
@@ -31,10 +44,6 @@ class WelcomeCommandTest {
 
     @Test
     void testNewPlayer() {
-        // Clear database.
-        playerDao.clearPlayers();
-        Truth.assertThat(playerDao.countPlayers()).isEqualTo(0);
-
         Truth.assertThat(command.onSlashInteraction(0, new ArrayList<>()).getContent()).isNotNull();
         Truth.assertThat(playerDao.countPlayers()).isEqualTo(1);
         Truth.assertThat(command.onSlashInteraction(0, new ArrayList<>()).getContent()).isNotNull();
@@ -43,10 +52,6 @@ class WelcomeCommandTest {
 
     @Test
     void testInteractions() {
-        // Clear database.
-        playerDao.clearPlayers();
-        Truth.assertThat(playerDao.countPlayers()).isEqualTo(0);
-
         // Has the action row.
         Truth.assertThat(command.onSlashInteraction(0, new ArrayList<>()).getComponents())
                 .isNotEmpty();

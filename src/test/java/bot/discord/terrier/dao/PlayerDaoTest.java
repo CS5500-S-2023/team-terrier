@@ -2,26 +2,35 @@ package bot.discord.terrier.dao;
 
 import bot.discord.terrier.model.Player;
 import com.google.common.truth.Truth;
+import com.mongodb.client.MongoDatabase;
 import dagger.Component;
 import javax.inject.Singleton;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 @Component(modules = {DaoTestModule.class})
 @Singleton
 interface PlayerDaoComponent {
     public PlayerDao playerDao();
+
+    public MongoDatabase database();
 }
 
 class PlayerDaoTest {
-    // DAO don't contain any state.
-    private final PlayerDao playerDao = DaggerPlayerDaoComponent.create().playerDao();
+    private final PlayerDaoComponent component = DaggerPlayerDaoComponent.create();
+    // DAOs don't contain any state.
+    private final PlayerDao playerDao = component.playerDao();
+    private final MongoDatabase database = component.database();
+
+    @BeforeEach
+    @AfterEach
+    void clearState() {
+        database.drop();
+    }
 
     @Test
     void testGetOrCreate() {
-        // Clear database.
-        playerDao.clearPlayers();
-        Truth.assertThat(playerDao.countPlayers()).isEqualTo(0);
-
         Player first = playerDao.getOrCreate(0);
         Truth.assertThat(playerDao.countPlayers()).isEqualTo(1);
         playerDao.getOrCreate(1);
@@ -40,10 +49,6 @@ class PlayerDaoTest {
 
     @Test
     void testInsertOfUpdate() {
-        // Clear database.
-        playerDao.clearPlayers();
-        Truth.assertThat(playerDao.countPlayers()).isEqualTo(0);
-
         Player first = new Player(0);
         playerDao.insertOrUpdate(first);
         Truth.assertThat(playerDao.countPlayers()).isEqualTo(1);

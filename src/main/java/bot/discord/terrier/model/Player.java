@@ -1,6 +1,7 @@
 package bot.discord.terrier.model;
 
 import java.time.LocalDate;
+import javax.annotation.Nonnull;
 import lombok.Data;
 import org.bson.codecs.pojo.annotations.BsonId;
 
@@ -60,5 +61,28 @@ public class Player {
             return true;
         }
         return false;
+    }
+
+    public double payAsPossible() {
+        double amount = Math.min(cash, borrowed);
+        cash -= amount;
+        borrowed -= amount;
+        return amount;
+    }
+
+    public double borrowAsPossible() {
+        double amount = MAX_BORROW_AMOUNT - borrowed;
+        cash += amount;
+        borrowed += amount;
+        return amount;
+    }
+
+    @SuppressWarnings("null")
+    @Nonnull
+    public String getPrettyString() {
+        String full = this.toString();
+        String pretty =
+                full.substring(full.indexOf("(") + 1, full.indexOf(")")).replace(", ", "\n");
+        return pretty;
     }
 }

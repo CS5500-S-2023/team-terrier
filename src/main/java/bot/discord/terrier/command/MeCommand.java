@@ -8,11 +8,12 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
+import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 
 @Singleton
-public class MeCommand implements TerrierCommand, SlashHandler {
+public class MeCommand implements TerrierCommand, SlashHandler, ButtonHandler {
     @Inject
     public MeCommand() {
         /** Injected default constructor */
@@ -36,10 +37,53 @@ public class MeCommand implements TerrierCommand, SlashHandler {
             long snowflakeId, @Nonnull List<OptionMapping> options) {
         Player player = playerDao.getOrCreate(snowflakeId);
         MessageCreateBuilder builder = new MessageCreateBuilder();
-        String full = player.toString();
-        String pretty =
-                full.substring(full.indexOf("(") + 1, full.indexOf(")")).replace(", ", "\n");
-        builder.setContent(pretty);
+        builder.setContent(player.getPrettyString());
+        Button payBn = Button.success("payBn", "Pay As Possible");
+        Button borrowBn = Button.success("borrowBn", "Borrow As Possible");
+
+        builder.addActionRow(payBn, borrowBn);
+        return builder.build();
+    }
+
+    @Override
+    @Nonnull
+    public List<String> getButtonNames() {
+        return List.of("payBn", "borrowBn");
+    }
+
+    @SuppressWarnings("null")
+    @Override
+    @Nonnull
+    public MessageCreateData onButtonInteraction(long snowflakeId, @Nonnull Button button) {
+        switch (button.getId()) {
+            case "payBn":
+                return payAsPossible(snowflakeId);
+            case "borrowBn":
+                return borrowAsPossible(snowflakeId);
+            default:
+                return new MessageCreateBuilder().setContent("Invalid input").build();
+        }
+    }
+
+    @Nonnull
+    public MessageCreateData payAsPossible(long snowflakeId) {
+        Player player = playerDao.getOrCreate(snowflakeId);
+        MessageCreateBuilder builder = new MessageCreateBuilder();
+        builder.setContent("Successfully paid: " + player.payAsPossible());
+        builder.addContent("\n");
+        builder.addContent(player.getPrettyString());
+        playerDao.insertOrUpdate(player);
+        return builder.build();
+    }
+
+    @Nonnull
+    public MessageCreateData borrowAsPossible(long snowflakeId) {
+        Player player = playerDao.getOrCreate(snowflakeId);
+        MessageCreateBuilder builder = new MessageCreateBuilder();
+        builder.setContent("Successfully borrowed: " + player.borrowAsPossible());
+        builder.addContent("\n");
+        builder.addContent(player.getPrettyString());
+        playerDao.insertOrUpdate(player);
         return builder.build();
     }
 }

@@ -6,10 +6,13 @@ import bot.discord.terrier.dao.RoomDao;
 import bot.discord.terrier.model.Player;
 import bot.discord.terrier.model.Room;
 import com.google.common.truth.Truth;
+import com.mongodb.client.MongoDatabase;
 import dagger.Component;
 import java.util.ArrayList;
 import javax.inject.Singleton;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 @Component(modules = {TerrierModule.class, DaoTestModule.class})
@@ -20,14 +23,24 @@ interface ListCommandComponent {
     public RoomDao roomDao();
 
     public PlayerDao playerDao();
+
+    public MongoDatabase database();
 }
 
 class ListCommandTest {
+    private final ListCommandComponent component = DaggerListCommandComponent.create();
     // Commands are stateless.
-    private final ListCommand command = DaggerListCommandComponent.create().command();
+    private final ListCommand command = component.command();
     // DAOs are stateless.
-    private final RoomDao roomDao = DaggerListCommandComponent.create().roomDao();
-    private final PlayerDao playerDao = DaggerListCommandComponent.create().playerDao();
+    private final RoomDao roomDao = component.roomDao();
+    private final PlayerDao playerDao = component.playerDao();
+    private final MongoDatabase database = component.database();
+
+    @BeforeEach
+    @AfterEach
+    void clearState() {
+        database.drop();
+    }
 
     @Test
     void testAttributes() {
@@ -37,10 +50,6 @@ class ListCommandTest {
 
     @Test
     void testInteraction() {
-        // Clear collection.
-        roomDao.clearAllRooms();
-        Truth.assertThat(roomDao.countRooms()).isEqualTo(0);
-
         // No rooms to show.
         var reply = command.onSlashInteraction(0, new ArrayList<>());
         Truth.assertThat(reply.getComponents()).isEmpty();
@@ -55,10 +64,6 @@ class ListCommandTest {
 
     @Test
     void testGetByRegex() {
-        // Clear collection.
-        roomDao.clearAllRooms();
-        Truth.assertThat(roomDao.countRooms()).isEqualTo(0);
-
         // No rooms found.
         Truth.assertThat(command.getRooms(".*")).isEmpty();
 
@@ -76,12 +81,6 @@ class ListCommandTest {
 
     @Test
     void testJoin() {
-        // Clear database states.
-        roomDao.clearAllRooms();
-        Truth.assertThat(roomDao.countRooms()).isEqualTo(0);
-        playerDao.clearPlayers();
-        Truth.assertThat(playerDao.countPlayers()).isEqualTo(0);
-
         // Normal join room.
         roomDao.insertOrUpdate(new Room("test"));
         Truth.assertThat(roomDao.countRooms()).isEqualTo(1);

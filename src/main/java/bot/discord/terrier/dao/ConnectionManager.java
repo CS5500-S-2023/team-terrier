@@ -5,6 +5,7 @@ import com.mongodb.MongoClientSettings;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoDatabase;
+import java.util.concurrent.ThreadLocalRandom;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import org.bson.codecs.configuration.CodecRegistries;
@@ -23,9 +24,10 @@ public class ConnectionManager {
     }
 
     private static final String PROD_DB_NAME = "terrier";
-    private static final String TEST_DB_NAME = "test";
+    private static final String TEST_DB_PREFIX = "test-";
 
     private final MongoClient client;
+    private MongoDatabase testDatabase = null;
 
     @Inject
     public ConnectionManager() {
@@ -49,6 +51,10 @@ public class ConnectionManager {
     }
 
     public MongoDatabase getTestDatabase() {
-        return client.getDatabase(TEST_DB_NAME);
+        if (testDatabase == null) {
+            testDatabase =
+                    client.getDatabase(TEST_DB_PREFIX + ThreadLocalRandom.current().nextInt());
+        }
+        return testDatabase;
     }
 }

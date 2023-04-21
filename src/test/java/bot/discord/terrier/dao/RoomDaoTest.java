@@ -1,5 +1,6 @@
 package bot.discord.terrier.dao;
 
+import bot.discord.terrier.dao.common.DaoTestModule;
 import bot.discord.terrier.model.Room;
 import com.google.common.truth.Truth;
 import com.mongodb.client.MongoDatabase;

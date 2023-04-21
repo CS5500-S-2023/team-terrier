@@ -1,7 +1,7 @@
 package bot.discord.terrier;
 
 import bot.discord.terrier.command.CommandModule;
-import bot.discord.terrier.dao.DaoProdModule;
+import bot.discord.terrier.dao.common.DaoProdModule;
 import bot.discord.terrier.listener.MessageListener;
 import dagger.Component;
 import java.util.Collection;

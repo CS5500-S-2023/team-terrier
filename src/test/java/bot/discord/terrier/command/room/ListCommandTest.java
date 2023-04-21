@@ -1,9 +1,9 @@
 package bot.discord.terrier.command.room;
 
 import bot.discord.terrier.command.CommandModule;
-import bot.discord.terrier.dao.DaoTestModule;
 import bot.discord.terrier.dao.PlayerDao;
 import bot.discord.terrier.dao.RoomDao;
+import bot.discord.terrier.dao.common.DaoTestModule;
 import bot.discord.terrier.model.Player;
 import bot.discord.terrier.model.Room;
 import com.google.common.truth.Truth;

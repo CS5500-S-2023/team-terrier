@@ -1,4 +1,4 @@
-package bot.discord.terrier.dao;
+package bot.discord.terrier.dao.common;
 
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;

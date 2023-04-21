@@ -1,8 +1,8 @@
 package bot.discord.terrier.command.room;
 
 import bot.discord.terrier.command.CommandModule;
-import bot.discord.terrier.dao.DaoTestModule;
 import bot.discord.terrier.dao.RoomDao;
+import bot.discord.terrier.dao.common.DaoTestModule;
 import com.google.common.truth.Truth;
 import com.mongodb.client.MongoDatabase;
 import dagger.Component;

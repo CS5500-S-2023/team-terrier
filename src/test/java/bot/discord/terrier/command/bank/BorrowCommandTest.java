@@ -1,8 +1,8 @@
 package bot.discord.terrier.command.bank;
 
 import bot.discord.terrier.command.CommandModule;
-import bot.discord.terrier.dao.DaoTestModule;
 import bot.discord.terrier.dao.PlayerDao;
+import bot.discord.terrier.dao.common.DaoTestModule;
 import bot.discord.terrier.model.Player;
 import com.google.common.truth.Truth;
 import com.mongodb.client.MongoDatabase;

@@ -1,5 +1,8 @@
 package bot.discord.terrier.command;
 
+import bot.discord.terrier.command.common.ButtonHandler;
+import bot.discord.terrier.command.common.SlashHandler;
+import bot.discord.terrier.command.common.TerrierCommand;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;

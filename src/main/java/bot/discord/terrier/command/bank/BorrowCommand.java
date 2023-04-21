@@ -1,6 +1,7 @@
-package bot.discord.terrier.command;
+package bot.discord.terrier.command.bank;
 
-import bot.discord.terrier.command.group.BankGroup;
+import bot.discord.terrier.command.common.SlashHandler;
+import bot.discord.terrier.command.common.TerrierCommand;
 import bot.discord.terrier.dao.PlayerDao;
 import bot.discord.terrier.model.Player;
 import com.mongodb.lang.Nullable;
@@ -17,29 +18,26 @@ import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 
 @Singleton
 public class BorrowCommand implements TerrierCommand, SlashHandler {
-    @Inject
-    public BorrowCommand() {
-        /** Injected default constructor */
-    }
-
-    @Inject PlayerDao playerDao;
-
     @Nonnull private static final String OPTION_KEY = "amount";
-
-    private static final double MAX_BORROW_AMOUNT = 10000;
 
     @Nonnull
     private static final SubcommandData DESCRIPTOR =
             new SubcommandData("borrow", "Terrier fetches money!")
                     .addOption(OptionType.NUMBER, OPTION_KEY, "Amount of money to borrow", true);
 
+    @Inject BankGroup group;
+    @Inject PlayerDao playerDao;
+
+    @Inject
+    public BorrowCommand() {
+        /** Injected default constructor */
+    }
+
     @Override
     @Nonnull
     public SubcommandData getDescriptor() {
         return DESCRIPTOR;
     }
-
-    @Inject BankGroup group;
 
     @Override
     @Nullable
@@ -70,8 +68,7 @@ public class BorrowCommand implements TerrierCommand, SlashHandler {
             playerDao.insertOrUpdate(player);
             builder.setContent("Successfully borrowed: " + amount + "!");
         } else {
-            double remain = MAX_BORROW_AMOUNT - player.getBorrowed();
-            builder.setContent("That's too much... Remaining balance: " + remain);
+            builder.setContent("That's too much...");
         }
         return builder.build();
     }

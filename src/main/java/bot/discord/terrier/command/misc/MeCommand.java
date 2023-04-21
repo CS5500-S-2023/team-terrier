@@ -1,5 +1,8 @@
-package bot.discord.terrier.command;
+package bot.discord.terrier.command.misc;
 
+import bot.discord.terrier.command.common.ButtonHandler;
+import bot.discord.terrier.command.common.SlashHandler;
+import bot.discord.terrier.command.common.TerrierCommand;
 import bot.discord.terrier.dao.PlayerDao;
 import bot.discord.terrier.model.Player;
 import java.util.List;
@@ -14,14 +17,19 @@ import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 
 @Singleton
 public class MeCommand implements TerrierCommand, SlashHandler, ButtonHandler {
-    @Inject
-    public MeCommand() {
-        /** Injected default constructor */
-    }
-
     @Nonnull
     private static final SubcommandData DESCRIPTOR =
             new SubcommandData("me", "Terrier sniffs you!");
+
+    @Nonnull private static final String PAY_BTN_KEY = "ME_PAY";
+    @Nonnull private static final String BORROW_BTN_KEY = "ME_BORROW";
+
+    @Inject PlayerDao playerDao;
+
+    @Inject
+    public MeCommand() {
+        /* Needed for injection */
+    }
 
     @Override
     @Nonnull
@@ -29,36 +37,37 @@ public class MeCommand implements TerrierCommand, SlashHandler, ButtonHandler {
         return DESCRIPTOR;
     }
 
-    @Inject PlayerDao playerDao;
-
     @Override
     @Nonnull
     public MessageCreateData onSlashInteraction(
             long snowflakeId, @Nonnull List<OptionMapping> options) {
         Player player = playerDao.getOrCreate(snowflakeId);
         MessageCreateBuilder builder = new MessageCreateBuilder();
-        builder.setContent(player.getPrettyString());
-        Button payBn = Button.success("payBn", "Pay As Possible");
-        Button borrowBn = Button.success("borrowBn", "Borrow As Possible");
-
-        builder.addActionRow(payBn, borrowBn);
+        builder.setContent(player.getPrettyString())
+                .addActionRow(
+                        Button.success(PAY_BTN_KEY, "Pay As Possible"),
+                        Button.success(BORROW_BTN_KEY, "Borrow As Possible"));
         return builder.build();
     }
 
     @Override
     @Nonnull
+    @SuppressWarnings("null")
     public List<String> getButtonNames() {
-        return List.of("payBn", "borrowBn");
+        return List.of(PAY_BTN_KEY, BORROW_BTN_KEY);
     }
 
-    @SuppressWarnings("null")
     @Override
     @Nonnull
     public MessageCreateData onButtonInteraction(long snowflakeId, @Nonnull Button button) {
-        switch (button.getId()) {
-            case "payBn":
+        String id = button.getId();
+        if (id == null) {
+            throw new NullPointerException("Button's id shouldn't be null");
+        }
+        switch (id) {
+            case PAY_BTN_KEY:
                 return payAsPossible(snowflakeId);
-            case "borrowBn":
+            case BORROW_BTN_KEY:
                 return borrowAsPossible(snowflakeId);
             default:
                 return new MessageCreateBuilder().setContent("Invalid input").build();

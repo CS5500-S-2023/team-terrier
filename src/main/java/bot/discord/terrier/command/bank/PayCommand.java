@@ -1,6 +1,7 @@
-package bot.discord.terrier.command;
+package bot.discord.terrier.command.bank;
 
-import bot.discord.terrier.command.group.BankGroup;
+import bot.discord.terrier.command.common.SlashHandler;
+import bot.discord.terrier.command.common.TerrierCommand;
 import bot.discord.terrier.dao.PlayerDao;
 import bot.discord.terrier.model.Player;
 import java.util.List;

@@ -1,4 +1,4 @@
-package bot.discord.terrier.command.group;
+package bot.discord.terrier.command.bank;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;

@@ -1,5 +1,6 @@
-package bot.discord.terrier.command;
+package bot.discord.terrier.command.misc;
 
+import bot.discord.terrier.command.TerrierModule;
 import bot.discord.terrier.dao.DaoTestModule;
 import bot.discord.terrier.dao.PlayerDao;
 import com.google.common.truth.Truth;

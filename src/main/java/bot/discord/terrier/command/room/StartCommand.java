@@ -1,16 +1,20 @@
-package bot.discord.terrier.command;
+package bot.discord.terrier.command.room;
 
+import bot.discord.terrier.command.common.SlashHandler;
+import bot.discord.terrier.command.common.TerrierCommand;
 import bot.discord.terrier.dao.PlayerDao;
 import bot.discord.terrier.dao.RoomDao;
 import bot.discord.terrier.model.Player;
 import bot.discord.terrier.model.Room;
 import java.util.List;
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
+import net.dv8tion.jda.api.interactions.commands.build.SubcommandGroupData;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 
@@ -23,12 +27,19 @@ public class StartCommand implements TerrierCommand, SlashHandler {
             new SubcommandData("start", "Woof! Terrier creates new rooms!")
                     .addOption(OptionType.STRING, OPTION_NAME, "Terrier gets the name!", true);
 
+    @Inject RoomGroup group;
     @Inject RoomDao roomDao;
     @Inject PlayerDao playerDao;
 
     @Inject
     public StartCommand() {
         /** Injected default constructor */
+    }
+
+    @Override
+    @Nullable
+    public SubcommandGroupData getGroup() {
+        return group;
     }
 
     @Override

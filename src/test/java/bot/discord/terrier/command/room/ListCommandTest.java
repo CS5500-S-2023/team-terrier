@@ -1,5 +1,6 @@
-package bot.discord.terrier.command;
+package bot.discord.terrier.command.room;
 
+import bot.discord.terrier.command.TerrierModule;
 import bot.discord.terrier.dao.DaoTestModule;
 import bot.discord.terrier.dao.PlayerDao;
 import bot.discord.terrier.dao.RoomDao;
@@ -44,7 +45,7 @@ class ListCommandTest {
 
     @Test
     void testAttributes() {
-        Truth.assertThat(command.getGroup()).isNull();
+        Truth.assertThat(command.getGroup()).isNotNull();
         Truth.assertThat(command.getDescriptor().getName()).isEqualTo("list");
     }
 

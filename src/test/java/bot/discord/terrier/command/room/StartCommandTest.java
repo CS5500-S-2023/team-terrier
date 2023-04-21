@@ -1,7 +1,7 @@
-package bot.discord.terrier.command;
+package bot.discord.terrier.command.room;
 
+import bot.discord.terrier.command.TerrierModule;
 import bot.discord.terrier.dao.DaoTestModule;
-import bot.discord.terrier.dao.PlayerDao;
 import bot.discord.terrier.dao.RoomDao;
 import com.google.common.truth.Truth;
 import com.mongodb.client.MongoDatabase;
@@ -19,8 +19,6 @@ interface StartCommandComponent {
 
     public RoomDao roomDao();
 
-    public PlayerDao playerDao();
-
     public MongoDatabase database();
 }
 
@@ -28,7 +26,6 @@ class StartCommandTest {
     private final StartCommandComponent component = DaggerStartCommandComponent.create();
     private final StartCommand command = component.command();
     private final RoomDao roomDao = component.roomDao();
-    private final PlayerDao playerDao = component.playerDao();
     private final MongoDatabase database = component.database();
 
     @BeforeEach
@@ -39,7 +36,7 @@ class StartCommandTest {
 
     @Test
     void testAttributes() {
-        Truth.assertThat(command.getGroup()).isNull();
+        Truth.assertThat(command.getGroup()).isNotNull();
         Truth.assertThat(command.getDescriptor().getName()).isEqualTo("start");
     }
 

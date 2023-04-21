@@ -1,5 +1,6 @@
-package bot.discord.terrier.command;
+package bot.discord.terrier.command.bank;
 
+import bot.discord.terrier.command.TerrierModule;
 import bot.discord.terrier.dao.DaoTestModule;
 import bot.discord.terrier.dao.PlayerDao;
 import bot.discord.terrier.model.Player;

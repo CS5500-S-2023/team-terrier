@@ -1,6 +1,16 @@
 package bot.discord.terrier.command;
 
-import bot.discord.terrier.command.group.BankGroup;
+import bot.discord.terrier.command.bank.BankGroup;
+import bot.discord.terrier.command.bank.BorrowCommand;
+import bot.discord.terrier.command.bank.PayCommand;
+import bot.discord.terrier.command.common.ButtonHandler;
+import bot.discord.terrier.command.common.SlashHandler;
+import bot.discord.terrier.command.common.TerrierCommand;
+import bot.discord.terrier.command.misc.MeCommand;
+import bot.discord.terrier.command.misc.WelcomeCommand;
+import bot.discord.terrier.command.room.ListCommand;
+import bot.discord.terrier.command.room.RoomGroup;
+import bot.discord.terrier.command.room.StartCommand;
 import dagger.Module;
 import dagger.Provides;
 import dagger.multibindings.IntoSet;
@@ -12,6 +22,12 @@ public class TerrierModule {
     @Provides
     @IntoSet
     public SubcommandGroupData provideBankGroup(BankGroup group) {
+        return group;
+    }
+
+    @Provides
+    @IntoSet
+    public SubcommandGroupData provideRoomGroup(RoomGroup group) {
         return group;
     }
 

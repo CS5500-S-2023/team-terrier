@@ -1,6 +1,6 @@
 package bot.discord.terrier.command.bank;
 
-import bot.discord.terrier.command.TerrierModule;
+import bot.discord.terrier.command.CommandModule;
 import bot.discord.terrier.dao.DaoTestModule;
 import bot.discord.terrier.dao.PlayerDao;
 import bot.discord.terrier.model.Player;
@@ -12,7 +12,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-@Component(modules = {TerrierModule.class, DaoTestModule.class})
+@Component(modules = {CommandModule.class, DaoTestModule.class})
 @Singleton
 interface PayCommandComponent {
     public PayCommand command();

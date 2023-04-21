@@ -1,6 +1,6 @@
 package bot.discord.terrier;
 
-import bot.discord.terrier.command.TerrierModule;
+import bot.discord.terrier.command.CommandModule;
 import bot.discord.terrier.dao.DaoProdModule;
 import bot.discord.terrier.listener.MessageListener;
 import dagger.Component;
@@ -14,7 +14,7 @@ import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.requests.restaction.CommandListUpdateAction;
 
-@Component(modules = {TerrierModule.class, DaoProdModule.class})
+@Component(modules = {CommandModule.class, DaoProdModule.class})
 @Singleton
 interface BotComponent {
     public Bot bot();

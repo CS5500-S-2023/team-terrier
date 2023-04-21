@@ -14,6 +14,10 @@ Warm welcome to anyone reading this document, we are teeeeaaaaammmmm Terrier!
 
 [Internal Weekly Standup](https://docs.google.com/document/d/1u6i3ZB6oWx0LWF0-WjuNrm2Efz2PWLI4EcHhgXsZnlk/edit?usp=sharing). It's internal, thus private.
 
+[Invitation to Discord Channel](https://discord.gg/aE6qc7FgtU). Just in case this link expires or changes, contact Maidi Wang via Teams.
+
+[Evidence of Deployment](https://docs.google.com/document/d/1R9MpqoMrWiBuT3l0llq48raZmd4Wsz_G6D2BNeUy-Yk/edit?usp=sharing).
+
 ## For Developers
 
 Welcome to our developing team, please utilize ctrl + f to find the answer you need and reach out in our teams channel in case this doesn't solve it.
@@ -63,6 +67,6 @@ A: Follow these steps carefully.
 8. Create a new server/channel in your own discord account, then paste the URL in your browser, and add the bot to your server.
 9. Test that the bot is working in 2 ways: the bot should be online, and specific slash commands should be available, such as `/button`.
 
-Q: How do view test coverage?
+Q: How to view test coverage?
 
-A: Supposing that you've already ran the tests and that Jacoco test report has already been generated, in order to view it in your browser, use the following command and change the directory accordingly: `python3 -m http.server --directory build/reports/jacoco/ 8080`.
+A: Supposing that you've already ran the tests and that a Jacoco test report has already been generated, in order to view it in your browser, use the following command and change the directory accordingly: `python3 -m http.server --directory build/reports/jacoco/ 8080`.

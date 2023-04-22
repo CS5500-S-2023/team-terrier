@@ -23,11 +23,12 @@ import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 
 @Singleton
 public class ListCommand implements TerrierCommand, SlashHandler, ButtonHandler {
+    @Nonnull public static final String SUB_NAME = "list";
     @Nonnull private static final String OPTION_NAME = "regex";
 
     @Nonnull
     private static final SubcommandData DESCRIPTOR =
-            new SubcommandData("list", "Woof! Terrier looks for rooms!")
+            new SubcommandData(SUB_NAME, "Woof! Terrier looks for rooms!")
                     .addOption(OptionType.STRING, OPTION_NAME, "Terrier knows regex!", false);
 
     @SuppressWarnings("null")

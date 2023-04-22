@@ -18,11 +18,12 @@ import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 
 @Singleton
 public class BorrowCommand implements TerrierCommand, SlashHandler {
+    @Nonnull public static final String SUB_NAME = "borrow";
     @Nonnull private static final String OPTION_KEY = "amount";
 
     @Nonnull
     private static final SubcommandData DESCRIPTOR =
-            new SubcommandData("borrow", "Terrier fetches money!")
+            new SubcommandData(SUB_NAME, "Terrier fetches money!")
                     .addOption(OptionType.NUMBER, OPTION_KEY, "Amount of money to borrow", true);
 
     @Inject BankGroup group;

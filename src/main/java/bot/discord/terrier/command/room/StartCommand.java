@@ -20,11 +20,12 @@ import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 
 @Singleton
 public class StartCommand implements TerrierCommand, SlashHandler {
+    @Nonnull public static final String SUB_NAME = "start";
     @Nonnull private static final String OPTION_NAME = "name";
 
     @Nonnull
     private static final SubcommandData DESCRIPTOR =
-            new SubcommandData("start", "Woof! Terrier creates new rooms!")
+            new SubcommandData(SUB_NAME, "Woof! Terrier creates new rooms!")
                     .addOption(OptionType.STRING, OPTION_NAME, "Terrier gets the name!", true);
 
     @Inject RoomGroup group;

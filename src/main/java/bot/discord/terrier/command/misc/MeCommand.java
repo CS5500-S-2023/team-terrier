@@ -17,9 +17,11 @@ import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 
 @Singleton
 public class MeCommand implements TerrierCommand, SlashHandler, ButtonHandler {
+    @Nonnull public static final String SUB_NAME = "me";
+
     @Nonnull
     private static final SubcommandData DESCRIPTOR =
-            new SubcommandData("me", "Terrier sniffs you!");
+            new SubcommandData(SUB_NAME, "Terrier sniffs you!");
 
     @Nonnull private static final String PAY_BTN_KEY = "ME_PAY";
     @Nonnull private static final String BORROW_BTN_KEY = "ME_BORROW";

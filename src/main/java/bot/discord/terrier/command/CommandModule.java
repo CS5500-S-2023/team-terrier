@@ -13,9 +13,15 @@ import bot.discord.terrier.command.room.RoomGroup;
 import bot.discord.terrier.command.room.StartCommand;
 import dagger.Binds;
 import dagger.Module;
+import dagger.multibindings.IntoMap;
 import dagger.multibindings.IntoSet;
+import dagger.multibindings.StringKey;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandGroupData;
 
+/**
+ * Commands are unqiuely identified by their subcommand name. We are utilizing Dagger multibinding
+ * for compile-time collision detection.
+ */
 @Module
 public abstract interface CommandModule {
     // Groups.
@@ -29,62 +35,77 @@ public abstract interface CommandModule {
 
     // Commands.
     @Binds
-    @IntoSet
+    @IntoMap
+    @StringKey(WelcomeCommand.SUB_NAME)
     public TerrierCommand provideWelcomeCommand(WelcomeCommand command);
 
     @Binds
-    @IntoSet
+    @IntoMap
+    @StringKey(WelcomeCommand.SUB_NAME)
     public SlashHandler provideWelcomeSlash(WelcomeCommand command);
 
     @Binds
-    @IntoSet
+    @IntoMap
+    @StringKey(WelcomeCommand.SUB_NAME)
     public ButtonHandler provideWelcomeButton(WelcomeCommand command);
 
     @Binds
-    @IntoSet
+    @IntoMap
+    @StringKey(MeCommand.SUB_NAME)
     public TerrierCommand provideMeCommand(MeCommand command);
 
     @Binds
-    @IntoSet
+    @IntoMap
+    @StringKey(MeCommand.SUB_NAME)
     public SlashHandler provideMeSlash(MeCommand command);
 
     @Binds
-    @IntoSet
+    @IntoMap
+    @StringKey(MeCommand.SUB_NAME)
     public ButtonHandler provideMeButton(MeCommand command);
 
     @Binds
-    @IntoSet
+    @IntoMap
+    @StringKey(BorrowCommand.SUB_NAME)
     public TerrierCommand provideBorrowCommand(BorrowCommand command);
 
     @Binds
-    @IntoSet
+    @IntoMap
+    @StringKey(BorrowCommand.SUB_NAME)
     public SlashHandler provideBorrowSlash(BorrowCommand command);
 
     @Binds
-    @IntoSet
+    @IntoMap
+    @StringKey(PayCommand.SUB_NAME)
     public TerrierCommand providePayCommand(PayCommand command);
 
     @Binds
-    @IntoSet
+    @IntoMap
+    @StringKey(PayCommand.SUB_NAME)
     public SlashHandler providePaySlash(PayCommand command);
 
     @Binds
-    @IntoSet
+    @IntoMap
+    @StringKey(ListCommand.SUB_NAME)
     public TerrierCommand provideListCommand(ListCommand command);
 
     @Binds
-    @IntoSet
+    @IntoMap
+    @StringKey(ListCommand.SUB_NAME)
     public SlashHandler provideListSlash(ListCommand command);
 
     @Binds
-    @IntoSet
+    @IntoMap
+    @StringKey(ListCommand.SUB_NAME)
     public ButtonHandler provideListButton(ListCommand command);
 
     @Binds
-    @IntoSet
+    @IntoMap
+    @StringKey(StartCommand.SUB_NAME)
     public TerrierCommand provideStartCommand(StartCommand command);
 
     @Binds
-    @IntoSet
+    @IntoMap
+    @StringKey(StartCommand.SUB_NAME)
     public SlashHandler provideStartSlash(StartCommand command);
 }

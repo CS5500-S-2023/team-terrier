@@ -18,11 +18,12 @@ import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 
 @Singleton
 public class PayCommand implements TerrierCommand, SlashHandler {
+    @Nonnull public static final String SUB_NAME = "pay";
     @Nonnull private static final String OPTION_KEY = "amount";
 
     @Nonnull
     private static final SubcommandData DESCRIPTOR =
-            new SubcommandData("pay", "Terrier Pays!")
+            new SubcommandData(SUB_NAME, "Terrier Pays!")
                     .addOption(OptionType.NUMBER, OPTION_KEY, "Amount of money to pay", true);
 
     @Inject PlayerDao playerDao;

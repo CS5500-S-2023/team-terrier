@@ -4,6 +4,7 @@ import bot.discord.terrier.command.common.ButtonHandler;
 import bot.discord.terrier.command.common.SlashHandler;
 import bot.discord.terrier.command.common.TerrierCommand;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import javax.annotation.Nonnull;
@@ -21,52 +22,17 @@ import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandGroupData;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 
-/**
- * This is essentially a callback scheduler that reacts to different events. For now only 3 type of
- * events are handled: 1. Slash commands 2. Button clicks 3. String selects
- */
 @Singleton
 @Slf4j
 public class MessageListener extends ListenerAdapter {
-    @Inject @Nonnull Set<SubcommandGroupData> groups;
-    @Nonnull Map<String, TerrierCommand> commandMap = new HashMap<>();
-    @Nonnull Map<String, SlashHandler> slashMap = new HashMap<>();
-    @Nonnull Map<String, ButtonHandler> buttonMap = new HashMap<>();
+    @Inject @Nonnull Set<SubcommandGroupData> groups = new HashSet<>();
+    @Inject @Nonnull Map<String, TerrierCommand> commandMap = new HashMap<>();
+    @Inject @Nonnull Map<String, SlashHandler> slashMap = new HashMap<>();
+    @Inject @Nonnull Map<String, ButtonHandler> buttonMap = new HashMap<>();
 
     @Inject
-    public MessageListener(
-            @Nonnull Set<TerrierCommand> commands,
-            @Nonnull Set<SlashHandler> slashHandlers,
-            @Nonnull Set<ButtonHandler> buttonHandlers) {
+    public MessageListener() {
         super();
-
-        // Map TerrierCommand traits.
-        for (TerrierCommand command : commands) {
-            String key = command.getDescriptor().getName();
-            if (commandMap.containsKey(key)) {
-                throw new IllegalArgumentException("Subcommand name collision found");
-            }
-            commandMap.put(key, command);
-        }
-
-        // Map SlashHandlers traits.
-        for (SlashHandler handler : slashHandlers) {
-            String key = handler.getDescriptor().getName();
-            if (slashMap.containsKey(key)) {
-                throw new IllegalArgumentException("Subcommand name collision found");
-            }
-            slashMap.put(key, handler);
-        }
-
-        // Map ButtonHandlers traits.
-        for (ButtonHandler handler : buttonHandlers) {
-            for (String key : handler.getButtonNames()) {
-                if (buttonMap.containsKey(key)) {
-                    throw new IllegalArgumentException("Button name collision found");
-                }
-                buttonMap.put(key, handler);
-            }
-        }
     }
 
     @Nonnull

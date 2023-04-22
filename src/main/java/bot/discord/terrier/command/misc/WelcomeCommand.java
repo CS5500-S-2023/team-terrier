@@ -17,9 +17,10 @@ import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 
 @Singleton
 public class WelcomeCommand implements TerrierCommand, SlashHandler, ButtonHandler {
+    @Nonnull public static final String SUB_NAME = "welcome";
+
     @Nonnull
-    private static final SubcommandData DESCRIPTOR =
-            new SubcommandData("welcome", "Terrier barks!");
+    private static final SubcommandData DESCRIPTOR = new SubcommandData(SUB_NAME, "Terrier barks!");
 
     private static final String IMAGE_URL =
             "http://t2.gstatic.com/licensed-image?q=tbn:ANd9GcQwUa3xK4Y_m-j8mXtjHM_WZ0lE9nWvzSr6sA4rbfDacySYS4roE11ftbZh2ildPCtqBuJdL2cHMQhSLdU";

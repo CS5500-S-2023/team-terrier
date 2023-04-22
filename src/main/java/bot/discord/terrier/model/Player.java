@@ -77,12 +77,15 @@ public class Player {
         return amount;
     }
 
-    @SuppressWarnings("null")
     @Nonnull
-    public String getPrettyString() {
+    public String prettyString() {
         String full = this.toString();
-        String pretty =
+        String prettied =
                 full.substring(full.indexOf("(") + 1, full.indexOf(")")).replace(", ", "\n");
-        return pretty;
+        if (prettied == null) {
+            throw new NullPointerException(
+                    "Prettied string representation of Player shouldn't be null");
+        }
+        return prettied;
     }
 }

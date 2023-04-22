@@ -43,7 +43,7 @@ public class MeCommand implements TerrierCommand, SlashHandler, ButtonHandler {
             long snowflakeId, @Nonnull List<OptionMapping> options) {
         Player player = playerDao.getOrCreate(snowflakeId);
         MessageCreateBuilder builder = new MessageCreateBuilder();
-        builder.setContent(player.getPrettyString())
+        builder.setContent(player.prettyString())
                 .addActionRow(
                         Button.success(PAY_BTN_KEY, "Pay As Possible"),
                         Button.success(BORROW_BTN_KEY, "Borrow As Possible"));
@@ -80,7 +80,7 @@ public class MeCommand implements TerrierCommand, SlashHandler, ButtonHandler {
         MessageCreateBuilder builder = new MessageCreateBuilder();
         builder.setContent("Successfully paid: " + player.payAsPossible());
         builder.addContent("\n");
-        builder.addContent(player.getPrettyString());
+        builder.addContent(player.prettyString());
         playerDao.insertOrUpdate(player);
         return builder.build();
     }
@@ -91,7 +91,7 @@ public class MeCommand implements TerrierCommand, SlashHandler, ButtonHandler {
         MessageCreateBuilder builder = new MessageCreateBuilder();
         builder.setContent("Successfully borrowed: " + player.borrowAsPossible());
         builder.addContent("\n");
-        builder.addContent(player.getPrettyString());
+        builder.addContent(player.prettyString());
         playerDao.insertOrUpdate(player);
         return builder.build();
     }

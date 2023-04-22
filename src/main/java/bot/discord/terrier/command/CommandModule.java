@@ -23,7 +23,7 @@ import net.dv8tion.jda.api.interactions.commands.build.SubcommandGroupData;
  * for compile-time collision detection.
  */
 @Module
-public abstract interface CommandModule {
+public interface CommandModule {
     // Groups.
     @Binds
     @IntoSet

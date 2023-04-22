@@ -33,9 +33,7 @@ public class StartCommand implements TerrierCommand, SlashHandler {
     @Inject PlayerDao playerDao;
 
     @Inject
-    public StartCommand() {
-        /** Injected default constructor */
-    }
+    StartCommand() {}
 
     @Override
     @Nullable
@@ -61,12 +59,20 @@ public class StartCommand implements TerrierCommand, SlashHandler {
             }
         }
         if (name == null) {
-            throw new NullPointerException();
+            throw new NullPointerException("Impossible for roomName to be null");
         }
 
         return createNewRoom(snowflakeId, name);
     }
 
+    /**
+     * Validates that roomName is available, and that the player isn't in a room before creating the
+     * new room and adding the player into it.
+     *
+     * @param snowflakeId player's id.
+     * @param name roomName.
+     * @return creation feedback.
+     */
     @Nonnull
     public MessageCreateData createNewRoom(long snowflakeId, @Nonnull String name) {
         MessageCreateBuilder builder = new MessageCreateBuilder();

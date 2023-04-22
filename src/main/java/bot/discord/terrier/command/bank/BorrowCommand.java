@@ -30,9 +30,7 @@ public class BorrowCommand implements TerrierCommand, SlashHandler {
     @Inject PlayerDao playerDao;
 
     @Inject
-    public BorrowCommand() {
-        /** Injected default constructor */
-    }
+    BorrowCommand() {}
 
     @Override
     @Nonnull
@@ -61,6 +59,13 @@ public class BorrowCommand implements TerrierCommand, SlashHandler {
         return tryBorrow(snowflakeId, amount);
     }
 
+    /**
+     * Try and borrow the amount of money specified.
+     *
+     * @param snowflakeId player's id.
+     * @param amount
+     * @return feedback.
+     */
     @Nonnull
     public MessageCreateData tryBorrow(long snowflakeId, double amount) {
         Player player = playerDao.getOrCreate(snowflakeId);

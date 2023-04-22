@@ -22,16 +22,16 @@ public class WelcomeCommand implements TerrierCommand, SlashHandler, ButtonHandl
     @Nonnull
     private static final SubcommandData DESCRIPTOR = new SubcommandData(SUB_NAME, "Terrier barks!");
 
+    @Nonnull
     private static final String IMAGE_URL =
             "http://t2.gstatic.com/licensed-image?q=tbn:ANd9GcQwUa3xK4Y_m-j8mXtjHM_WZ0lE9nWvzSr6sA4rbfDacySYS4roE11ftbZh2ildPCtqBuJdL2cHMQhSLdU";
-    private static final String CLAIM_BUTTON_ID = "CLAIM";
+
+    @Nonnull private static final String CLAIM_BUTTON_ID = "CLAIM";
 
     @Inject PlayerDao playerDao;
 
     @Inject
-    public WelcomeCommand() {
-        /** Default injected constructor */
-    }
+    WelcomeCommand() {}
 
     @Override
     @Nonnull
@@ -51,6 +51,7 @@ public class WelcomeCommand implements TerrierCommand, SlashHandler, ButtonHandl
         return builder.build();
     }
 
+    // Obviously not null.
     @SuppressWarnings("null")
     @Override
     @Nonnull

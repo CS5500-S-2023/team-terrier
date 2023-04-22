@@ -29,9 +29,7 @@ public class MeCommand implements TerrierCommand, SlashHandler, ButtonHandler {
     @Inject PlayerDao playerDao;
 
     @Inject
-    public MeCommand() {
-        /* Needed for injection */
-    }
+    MeCommand() {}
 
     @Override
     @Nonnull
@@ -52,9 +50,10 @@ public class MeCommand implements TerrierCommand, SlashHandler, ButtonHandler {
         return builder.build();
     }
 
+    // Obviously not null.
+    @SuppressWarnings("null")
     @Override
     @Nonnull
-    @SuppressWarnings("null")
     public List<String> getButtonNames() {
         return List.of(PAY_BTN_KEY, BORROW_BTN_KEY);
     }
@@ -76,6 +75,12 @@ public class MeCommand implements TerrierCommand, SlashHandler, ButtonHandler {
         }
     }
 
+    /**
+     * Pay back as much money as possible.
+     *
+     * @param snowflakeId player's id.
+     * @return feedback.
+     */
     @Nonnull
     public MessageCreateData payAsPossible(long snowflakeId) {
         Player player = playerDao.getOrCreate(snowflakeId);
@@ -87,6 +92,12 @@ public class MeCommand implements TerrierCommand, SlashHandler, ButtonHandler {
         return builder.build();
     }
 
+    /**
+     * Borrow as much money as possible.
+     *
+     * @param snowflakeId player's id.
+     * @return feedback.
+     */
     @Nonnull
     public MessageCreateData borrowAsPossible(long snowflakeId) {
         Player player = playerDao.getOrCreate(snowflakeId);

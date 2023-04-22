@@ -30,9 +30,7 @@ public class PayCommand implements TerrierCommand, SlashHandler {
     @Inject BankGroup group;
 
     @Inject
-    public PayCommand() {
-        /** Injected default constructor */
-    }
+    PayCommand() {}
 
     @Override
     @Nonnull
@@ -60,6 +58,13 @@ public class PayCommand implements TerrierCommand, SlashHandler {
         return tryPay(snowflakeId, amount);
     }
 
+    /**
+     * Try and pay back the amount of money specified.
+     *
+     * @param snowflakeId player's id.
+     * @param amount
+     * @return feedback.
+     */
     @Nonnull
     public MessageCreateData tryPay(long snowflakeId, double amount) {
         Player player = playerDao.getOrCreate(snowflakeId);

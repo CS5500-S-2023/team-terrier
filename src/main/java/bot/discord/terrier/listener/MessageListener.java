@@ -35,6 +35,11 @@ public class MessageListener extends ListenerAdapter {
         super();
     }
 
+    /**
+     * This function assumes that all subcommand groups are singletons.
+     *
+     * @return all commands supported under "/terrier" namespace.
+     */
     @Nonnull
     public CommandData allCommandData() {
         SlashCommandData descriptors = Commands.slash("terrier", "Terrier's here to help!");
@@ -53,13 +58,14 @@ public class MessageListener extends ListenerAdapter {
         return descriptors;
     }
 
-    /** Slash interaction callback entry point. */
+    /** Slash interaction entry point. */
     @Override
     public void onSlashCommandInteraction(@Nonnull SlashCommandInteractionEvent event) {
         String key = event.getSubcommandName();
         if (!slashMap.containsKey(key)) {
             log.info("Unrecognized subcommand: " + key);
             event.reply("Terrier doesn't recognize this subcommand!").queue();
+            return;
         }
         log.info("/" + event.getFullCommandName());
         MessageCreateData reply =
@@ -68,12 +74,14 @@ public class MessageListener extends ListenerAdapter {
         event.reply(reply).queue();
     }
 
+    /** Button interaction entry point. */
     @Override
     public void onButtonInteraction(@Nonnull ButtonInteractionEvent event) {
         String key = event.getButton().getId();
         if (!buttonMap.containsKey(key)) {
             log.info("Unrecognized button id: " + key);
             event.reply("Terrier doesn't recognize this button!").queue();
+            return;
         }
         log.info("button: " + key);
         MessageCreateData reply =
@@ -83,6 +91,7 @@ public class MessageListener extends ListenerAdapter {
         event.reply(reply).queue();
     }
 
+    /** String select interaction entry point. */
     @Override
     public void onStringSelectInteraction(@Nonnull StringSelectInteractionEvent event) {
         event.reply("No handler for this category yet").queue();

@@ -31,6 +31,7 @@ public class ListCommand implements TerrierCommand, SlashHandler, ButtonHandler 
             new SubcommandData(SUB_NAME, "Woof! Terrier looks for rooms!")
                     .addOption(OptionType.STRING, OPTION_NAME, "Terrier knows regex!", false);
 
+    // This is obviously not null.
     @SuppressWarnings("null")
     @Nonnull
     private static final List<String> BUTTON_NAMES =
@@ -46,9 +47,7 @@ public class ListCommand implements TerrierCommand, SlashHandler, ButtonHandler 
     @Inject PlayerDao playerDao;
 
     @Inject
-    public ListCommand() {
-        /** Injected default constructor */
-    }
+    ListCommand() {}
 
     @Override
     @Nullable

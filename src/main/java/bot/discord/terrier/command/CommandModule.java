@@ -45,8 +45,7 @@ public interface CommandModule {
     public SlashHandler provideWelcomeSlash(WelcomeCommand command);
 
     @Binds
-    @IntoMap
-    @StringKey(WelcomeCommand.SUB_NAME)
+    @IntoSet
     public ButtonHandler provideWelcomeButton(WelcomeCommand command);
 
     @Binds
@@ -60,8 +59,7 @@ public interface CommandModule {
     public SlashHandler provideMeSlash(MeCommand command);
 
     @Binds
-    @IntoMap
-    @StringKey(MeCommand.SUB_NAME)
+    @IntoSet
     public ButtonHandler provideMeButton(MeCommand command);
 
     @Binds
@@ -95,8 +93,7 @@ public interface CommandModule {
     public SlashHandler provideListSlash(ListCommand command);
 
     @Binds
-    @IntoMap
-    @StringKey(ListCommand.SUB_NAME)
+    @IntoSet
     public ButtonHandler provideListButton(ListCommand command);
 
     @Binds

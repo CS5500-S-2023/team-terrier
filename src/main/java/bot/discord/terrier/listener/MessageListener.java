@@ -26,13 +26,25 @@ import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 @Slf4j
 public class MessageListener extends ListenerAdapter {
     @Inject @Nonnull Set<SubcommandGroupData> groups = new HashSet<>();
+    // Subcommand name -> TerrierCommand.
     @Inject @Nonnull Map<String, TerrierCommand> commandMap = new HashMap<>();
+    // Subcommand name -> SlashHandler.
     @Inject @Nonnull Map<String, SlashHandler> slashMap = new HashMap<>();
-    @Inject @Nonnull Map<String, ButtonHandler> buttonMap = new HashMap<>();
+    // Button id -> ButtonHandler.
+    @Nonnull Map<String, ButtonHandler> buttonMap = new HashMap<>();
 
     @Inject
-    public MessageListener() {
+    public MessageListener(@Nonnull Set<ButtonHandler> handlers) {
         super();
+
+        for (ButtonHandler handler : handlers) {
+            for (String name : handler.getButtonNames()) {
+                if (buttonMap.containsKey(name)) {
+                    throw new IllegalArgumentException("Button name collision detected");
+                }
+                buttonMap.put(name, handler);
+            }
+        }
     }
 
     /**

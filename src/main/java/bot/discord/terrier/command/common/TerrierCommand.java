@@ -1,4 +1,4 @@
-package bot.discord.terrier.command;
+package bot.discord.terrier.command.common;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

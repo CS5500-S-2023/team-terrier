@@ -1,5 +1,8 @@
-package bot.discord.terrier.command;
+package bot.discord.terrier.command.room;
 
+import bot.discord.terrier.command.common.ButtonHandler;
+import bot.discord.terrier.command.common.SlashHandler;
+import bot.discord.terrier.command.common.TerrierCommand;
 import bot.discord.terrier.dao.PlayerDao;
 import bot.discord.terrier.dao.RoomDao;
 import bot.discord.terrier.model.Player;
@@ -7,24 +10,28 @@ import bot.discord.terrier.model.Room;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
+import net.dv8tion.jda.api.interactions.commands.build.SubcommandGroupData;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 
 @Singleton
 public class ListCommand implements TerrierCommand, SlashHandler, ButtonHandler {
+    @Nonnull public static final String SUB_NAME = "list";
     @Nonnull private static final String OPTION_NAME = "regex";
 
     @Nonnull
     private static final SubcommandData DESCRIPTOR =
-            new SubcommandData("list", "Woof! Terrier looks for rooms!")
+            new SubcommandData(SUB_NAME, "Woof! Terrier looks for rooms!")
                     .addOption(OptionType.STRING, OPTION_NAME, "Terrier knows regex!", false);
 
+    // This is obviously not null.
     @SuppressWarnings("null")
     @Nonnull
     private static final List<String> BUTTON_NAMES =
@@ -35,12 +42,17 @@ public class ListCommand implements TerrierCommand, SlashHandler, ButtonHandler 
                     "LIST_BUTTON_3",
                     "LIST_BUTTON_4");
 
+    @Inject RoomGroup group;
     @Inject RoomDao roomDao;
     @Inject PlayerDao playerDao;
 
     @Inject
-    public ListCommand() {
-        /** Injected default constructor */
+    ListCommand() {}
+
+    @Override
+    @Nullable
+    public SubcommandGroupData getGroup() {
+        return group;
     }
 
     @Override

@@ -1,8 +1,8 @@
-package bot.discord.terrier.command;
+package bot.discord.terrier.command.room;
 
-import bot.discord.terrier.dao.DaoTestModule;
-import bot.discord.terrier.dao.PlayerDao;
+import bot.discord.terrier.command.CommandModule;
 import bot.discord.terrier.dao.RoomDao;
+import bot.discord.terrier.dao.common.DaoTestModule;
 import com.google.common.truth.Truth;
 import com.mongodb.client.MongoDatabase;
 import dagger.Component;
@@ -12,14 +12,12 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-@Component(modules = {TerrierModule.class, DaoTestModule.class})
+@Component(modules = {CommandModule.class, DaoTestModule.class})
 @Singleton
 interface StartCommandComponent {
     public StartCommand command();
 
     public RoomDao roomDao();
-
-    public PlayerDao playerDao();
 
     public MongoDatabase database();
 }
@@ -28,7 +26,6 @@ class StartCommandTest {
     private final StartCommandComponent component = DaggerStartCommandComponent.create();
     private final StartCommand command = component.command();
     private final RoomDao roomDao = component.roomDao();
-    private final PlayerDao playerDao = component.playerDao();
     private final MongoDatabase database = component.database();
 
     @BeforeEach
@@ -39,7 +36,7 @@ class StartCommandTest {
 
     @Test
     void testAttributes() {
-        Truth.assertThat(command.getGroup()).isNull();
+        Truth.assertThat(command.getGroup()).isNotNull();
         Truth.assertThat(command.getDescriptor().getName()).isEqualTo("start");
     }
 

@@ -1,8 +1,9 @@
-package bot.discord.terrier.command;
+package bot.discord.terrier.command.room;
 
-import bot.discord.terrier.dao.DaoTestModule;
+import bot.discord.terrier.command.CommandModule;
 import bot.discord.terrier.dao.PlayerDao;
 import bot.discord.terrier.dao.RoomDao;
+import bot.discord.terrier.dao.common.DaoTestModule;
 import bot.discord.terrier.model.Player;
 import bot.discord.terrier.model.Room;
 import com.google.common.truth.Truth;
@@ -15,7 +16,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-@Component(modules = {TerrierModule.class, DaoTestModule.class})
+@Component(modules = {CommandModule.class, DaoTestModule.class})
 @Singleton
 interface ListCommandComponent {
     public ListCommand command();
@@ -44,7 +45,7 @@ class ListCommandTest {
 
     @Test
     void testAttributes() {
-        Truth.assertThat(command.getGroup()).isNull();
+        Truth.assertThat(command.getGroup()).isNotNull();
         Truth.assertThat(command.getDescriptor().getName()).isEqualTo("list");
     }
 

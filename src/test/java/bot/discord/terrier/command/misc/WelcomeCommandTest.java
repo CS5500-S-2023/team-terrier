@@ -1,7 +1,8 @@
-package bot.discord.terrier.command;
+package bot.discord.terrier.command.misc;
 
-import bot.discord.terrier.dao.DaoTestModule;
+import bot.discord.terrier.command.CommandModule;
 import bot.discord.terrier.dao.PlayerDao;
+import bot.discord.terrier.dao.common.DaoTestModule;
 import com.google.common.truth.Truth;
 import com.mongodb.client.MongoDatabase;
 import dagger.Component;
@@ -12,7 +13,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-@Component(modules = {TerrierModule.class, DaoTestModule.class})
+@Component(modules = {CommandModule.class, DaoTestModule.class})
 @Singleton
 interface WelcomeCommandComponent {
     public WelcomeCommand command();

@@ -14,11 +14,15 @@ Warm welcome to anyone reading this document, we are teeeeaaaaammmmm Terrier!
 
 [Internal Weekly Standup](https://docs.google.com/document/d/1u6i3ZB6oWx0LWF0-WjuNrm2Efz2PWLI4EcHhgXsZnlk/edit?usp=sharing). It's internal, thus private.
 
+[Invitation to Discord Channel](https://discord.gg/aE6qc7FgtU). Just in case this link expires or changes, contact Maidi Wang via Teams.
+
+[Evidence of Deployment](https://docs.google.com/document/d/1R9MpqoMrWiBuT3l0llq48raZmd4Wsz_G6D2BNeUy-Yk/edit?usp=sharing).
+
 ## For Developers
 
 Welcome to our developing team, please utilize ctrl + f to find the answer you need and reach out in our teams channel in case this doesn't solve it.
 
-We know the knowledge needed to start coding in a new framework is enormous, so this part is designed as a FAQ hashmap, aka memo for previously asked questions. The goal is to memorize and prevent asking the same questions over and over again.
+We know the knowledge needed to start coding in a new framework is enormous, so this part is designed as a FAQ hashmap, aka memo for previously asked questions. The goal is to memorize and prevent asking the same questions over and over again. For the sake of simplicity, some FAQs require recursive searching. Recursive instructions will be indicated.
 
 ### Best Practices
 
@@ -51,18 +55,27 @@ A: All code will be written and executed on Github codespaces. Navigate to our [
 
 Q: How do I run our bot?
 
-A: Follow these steps carefully.
+A: Follow these instructions.
 
-1. Create an application in [Discord developer portal](https://discord.com/developers/applications) by clicking on **New Application** on the top right corner with whatever name you want.
-2. Create a bot in this application by clicking on the **Bot** tab on the left panel, and then clicking on **Add Bot**.
-3. Copy this bot's token and come back to Github codespace's terminal.
-4. In the terminal, type the following command with your bot's token: `export BOT_TOKEN=<TOKEN>`
-5. Run the following command in the terminal at the root directory of the project: `./gradlew run`. If you see the bot stuck at 80%, that means it's running.
-6. Go back to Discord developer portal and click on **OAuth2** on the left panel, and then **URL Generator**.
-7. On the right, select **bot** and **applications.commands**, then copy the URL on the bottom.
-8. Create a new server/channel in your own discord account, then paste the URL in your browser, and add the bot to your server.
-9. Test that the bot is working in 2 ways: the bot should be online, and specific slash commands should be available, such as `/button`.
+1. Get a bot token. (recursive)
+2. Set bot token as an environment variable through command: `export BOT_TOKEN=<TOKEN>`.
+3. Get a mongodb connection string. (recursive)
+4. Set mongodb connection string as enviroment variable through command: `export MONGODB_URL=<CONNECTION_STRING>`. Note that it should be **MONGODB_URL**.
+5. Invite bot to server. (recursive)
+6. Test that the bot is working in 2 ways: the bot should be online, and specific slash commands should be available, such as `/terrier me`.
 
-Q: How do view test coverage?
+Q: How do I get a bot token?
 
-A: Supposing that you've already ran the tests and that Jacoco test report has already been generated, in order to view it in your browser, use the following command and change the directory accordingly: `python3 -m http.server --directory build/reports/jacoco/ 8080`.
+A: Create an application in [Discord developer portal](https://discord.com/developers/applications), then create a bot in this application by clicking on the **Bot** tab on the left panel, and then clicking on **Add Bot**. You should see the token (reset token may be required) next to the icon and under the username.
+
+Q: How do I get a mongodb connection string.
+
+A: [Atlas guides](https://www.mongodb.com/docs/guides/atlas/connection-string/). Remember to fill-in the username and password with your actual credentials. Note that you may also have to change IP-TABLES to allow for access from anywhere.
+
+Q: How do I invite our bot into a server?
+
+A: [Instructions](https://discordjs.guide/preparations/adding-your-bot-to-servers.html#bot-invite-links). Customize by choosing other permissions under URL generator in your Discord Developer Portal. After you have the invitation link, paste it into your browser and you'll be redirected.
+
+Q: How to view test coverage?
+
+A: Supposing that you've already ran the tests and that a Jacoco test report has already been generated, in order to view it in your browser, use the following command and change the directory accordingly: `python3 -m http.server --directory build/reports/jacoco/ 8080`.

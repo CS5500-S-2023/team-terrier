@@ -1,11 +1,12 @@
-package bot.discord.terrier.command;
+package bot.discord.terrier.command.bank;
 
-import bot.discord.terrier.command.group.BankGroup;
+import bot.discord.terrier.command.common.SlashHandler;
+import bot.discord.terrier.command.common.TerrierCommand;
 import bot.discord.terrier.dao.PlayerDao;
 import bot.discord.terrier.model.Player;
-import com.mongodb.lang.Nullable;
 import java.util.List;
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
@@ -16,30 +17,26 @@ import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 
 @Singleton
-public class BorrowCommand implements TerrierCommand, SlashHandler {
-    @Inject
-    public BorrowCommand() {
-        /** Injected default constructor */
-    }
-
-    @Inject PlayerDao playerDao;
-
+public class PayCommand implements TerrierCommand, SlashHandler {
+    @Nonnull public static final String SUB_NAME = "pay";
     @Nonnull private static final String OPTION_KEY = "amount";
-
-    private static final double MAX_BORROW_AMOUNT = 10000;
 
     @Nonnull
     private static final SubcommandData DESCRIPTOR =
-            new SubcommandData("borrow", "Terrier fetches money!")
-                    .addOption(OptionType.NUMBER, OPTION_KEY, "Amount of money to borrow", true);
+            new SubcommandData(SUB_NAME, "Terrier Pays!")
+                    .addOption(OptionType.NUMBER, OPTION_KEY, "Amount of money to pay", true);
+
+    @Inject PlayerDao playerDao;
+    @Inject BankGroup group;
+
+    @Inject
+    PayCommand() {}
 
     @Override
     @Nonnull
     public SubcommandData getDescriptor() {
         return DESCRIPTOR;
     }
-
-    @Inject BankGroup group;
 
     @Override
     @Nullable
@@ -58,20 +55,34 @@ public class BorrowCommand implements TerrierCommand, SlashHandler {
                 break;
             }
         }
-
-        return tryBorrow(snowflakeId, amount);
+        return tryPay(snowflakeId, amount);
     }
 
+    /**
+     * Try and pay back the amount of money specified.
+     *
+     * @param snowflakeId player's id.
+     * @param amount
+     * @return feedback.
+     */
     @Nonnull
-    public MessageCreateData tryBorrow(long snowflakeId, double amount) {
+    public MessageCreateData tryPay(long snowflakeId, double amount) {
         Player player = playerDao.getOrCreate(snowflakeId);
         MessageCreateBuilder builder = new MessageCreateBuilder();
-        if (player.borrow(amount)) {
+        if (player.pay(amount)) {
             playerDao.insertOrUpdate(player);
-            builder.setContent("Successfully borrowed: " + amount + "!");
+            builder.setContent(
+                    "Successfully paid "
+                            + amount
+                            + "!"
+                            + " Remaining loan: "
+                            + player.getBorrowed());
         } else {
-            double remain = MAX_BORROW_AMOUNT - player.getBorrowed();
-            builder.setContent("That's too much... Remaining balance: " + remain);
+            builder.setContent(
+                    "Transaction failed. Current loan: "
+                            + player.getBorrowed()
+                            + ", current cash: "
+                            + player.getCash());
         }
         return builder.build();
     }

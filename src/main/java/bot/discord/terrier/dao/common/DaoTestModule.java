@@ -1,4 +1,4 @@
-package bot.discord.terrier.dao;
+package bot.discord.terrier.dao.common;
 
 import com.mongodb.client.MongoDatabase;
 import dagger.Module;

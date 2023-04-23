@@ -1,5 +1,8 @@
-package bot.discord.terrier.command;
+package bot.discord.terrier.command.misc;
 
+import bot.discord.terrier.command.common.ButtonHandler;
+import bot.discord.terrier.command.common.SlashHandler;
+import bot.discord.terrier.command.common.TerrierCommand;
 import bot.discord.terrier.dao.PlayerDao;
 import bot.discord.terrier.model.Player;
 import java.util.List;
@@ -14,21 +17,21 @@ import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 
 @Singleton
 public class WelcomeCommand implements TerrierCommand, SlashHandler, ButtonHandler {
+    @Nonnull public static final String SUB_NAME = "welcome";
 
+    @Nonnull
+    private static final SubcommandData DESCRIPTOR = new SubcommandData(SUB_NAME, "Terrier barks!");
+
+    @Nonnull
     private static final String IMAGE_URL =
             "http://t2.gstatic.com/licensed-image?q=tbn:ANd9GcQwUa3xK4Y_m-j8mXtjHM_WZ0lE9nWvzSr6sA4rbfDacySYS4roE11ftbZh2ildPCtqBuJdL2cHMQhSLdU";
-    private static final String CLAIM_BUTTON_ID = "claim";
+
+    @Nonnull private static final String CLAIM_BUTTON_ID = "CLAIM";
 
     @Inject PlayerDao playerDao;
 
     @Inject
-    public WelcomeCommand() {
-        /** Default injected constructor */
-    }
-
-    @Nonnull
-    private static final SubcommandData DESCRIPTOR =
-            new SubcommandData("welcome", "Terrier barks!");
+    WelcomeCommand() {}
 
     @Override
     @Nonnull
@@ -48,6 +51,8 @@ public class WelcomeCommand implements TerrierCommand, SlashHandler, ButtonHandl
         return builder.build();
     }
 
+    // Obviously not null.
+    @SuppressWarnings("null")
     @Override
     @Nonnull
     public List<String> getButtonNames() {

@@ -1,5 +1,6 @@
 package bot.discord.terrier.dao;
 
+import bot.discord.terrier.dao.common.DaoTestModule;
 import bot.discord.terrier.model.Room;
 import com.google.common.truth.Truth;
 import com.mongodb.client.MongoDatabase;
@@ -53,7 +54,7 @@ public class RoomDaoTest {
         Room newRoom = new Room("test1");
         newRoom.getPlayers().add(0L);
         roomDao.insertOrUpdate(newRoom);
-        Truth.assertThat(roomDao.getRoomByName("test1").getSize()).isEqualTo(1);
+        Truth.assertThat(roomDao.getRoomByName("test1").getPlayers().size()).isEqualTo(1);
     }
 
     @Test

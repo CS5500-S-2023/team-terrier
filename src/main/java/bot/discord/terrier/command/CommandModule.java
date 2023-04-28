@@ -6,6 +6,7 @@ import bot.discord.terrier.command.bank.PayCommand;
 import bot.discord.terrier.command.common.ButtonHandler;
 import bot.discord.terrier.command.common.SlashHandler;
 import bot.discord.terrier.command.common.TerrierCommand;
+import bot.discord.terrier.command.misc.LuckyCommand;
 import bot.discord.terrier.command.misc.MeCommand;
 import bot.discord.terrier.command.misc.WelcomeCommand;
 import bot.discord.terrier.command.room.ListCommand;
@@ -105,4 +106,14 @@ public interface CommandModule {
     @IntoMap
     @StringKey(StartCommand.SUB_NAME)
     public SlashHandler provideStartSlash(StartCommand command);
+
+    @Binds
+    @IntoMap
+    @StringKey(LuckyCommand.SUB_NAME)
+    public TerrierCommand provideLuckyCommand(LuckyCommand command);
+
+    @Binds
+    @IntoMap
+    @StringKey(LuckyCommand.SUB_NAME)
+    public SlashHandler provideLuckySlash(LuckyCommand command);
 }

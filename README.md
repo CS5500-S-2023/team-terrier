@@ -18,6 +18,8 @@ Warm welcome to anyone reading this document, we are teeeeaaaaammmmm Terrier!
 
 [Evidence of Deployment](https://docs.google.com/document/d/1R9MpqoMrWiBuT3l0llq48raZmd4Wsz_G6D2BNeUy-Yk/edit?usp=sharing).
 
+[Youtube Link](https://youtu.be/-Oo61tDSsK4). Hopefully it works.
+
 ## For Developers
 
 Welcome to our developing team, please utilize ctrl + f to find the answer you need and reach out in our teams channel in case this doesn't solve it.

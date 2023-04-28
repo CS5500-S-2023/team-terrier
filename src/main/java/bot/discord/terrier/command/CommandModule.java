@@ -10,6 +10,7 @@ import bot.discord.terrier.command.misc.LuckyCommand;
 import bot.discord.terrier.command.misc.MeCommand;
 import bot.discord.terrier.command.misc.WelcomeCommand;
 import bot.discord.terrier.command.room.ListCommand;
+import bot.discord.terrier.command.room.QuitCommand;
 import bot.discord.terrier.command.room.RoomGroup;
 import bot.discord.terrier.command.room.StartCommand;
 import dagger.Binds;
@@ -116,4 +117,14 @@ public interface CommandModule {
     @IntoMap
     @StringKey(LuckyCommand.SUB_NAME)
     public SlashHandler provideLuckySlash(LuckyCommand command);
+
+    @Binds
+    @IntoMap
+    @StringKey(QuitCommand.SUB_NAME)
+    public TerrierCommand provideQuitCommand(QuitCommand command);
+
+    @Binds
+    @IntoMap
+    @StringKey(QuitCommand.SUB_NAME)
+    public SlashHandler provideQuitSlash(QuitCommand command);
 }
